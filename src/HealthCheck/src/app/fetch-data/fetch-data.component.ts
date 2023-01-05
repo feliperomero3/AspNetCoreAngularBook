@@ -9,7 +9,6 @@ import { environment } from '../../environments/environment';
 })
 export class FetchDataComponent implements OnInit {
 
-  public title = 'HealthCheck';
   public forecasts?: WeatherForecast[];
 
   constructor(private http: HttpClient) {
