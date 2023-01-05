@@ -19,7 +19,7 @@ export class FetchDataComponent implements OnInit {
   }
 
   getWeatherForecast(): void {
-    this.http.get<WeatherForecast[]>(`${environment.baseUrl}/weatherforecast`).subscribe(result => {
+    this.http.get<WeatherForecast[]>(`${environment.baseUrl}weatherforecast`).subscribe(result => {
       this.forecasts = result;
     }, error => console.error(error));
   }
