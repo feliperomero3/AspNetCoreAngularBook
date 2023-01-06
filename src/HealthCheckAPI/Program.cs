@@ -3,12 +3,13 @@ global using HealthCheckAPI;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHealthChecks()
-    .AddCheck("Health", new HealthCheck(new HttpClient(), "https://10.0.0.0", 300L));
+    .AddCheck("Health_01", new HealthCheck("https://bing.com", 500L))
+    .AddCheck("Health_02", new HealthCheck("https://google.com", 500L))
+    .AddCheck("Health_03", new HealthCheck("https://10.0.0.0", 500L));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddHttpClient();
 
 var app = builder.Build();
 

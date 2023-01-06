@@ -9,11 +9,11 @@ public class HealthCheck : IHealthCheck
     private readonly string _host;
     private readonly long _healthyRoundtripTime;
 
-    public HealthCheck(HttpClient client, string host, long healthyRoundtripTime)
+    public HealthCheck(string host, long healthyRoundtripTime)
     {
-        _client = client ?? throw new ArgumentNullException(nameof(client));
         _host = host ?? throw new ArgumentNullException(nameof(host));
         _healthyRoundtripTime = healthyRoundtripTime;
+        _client = new HttpClient();
     }
 
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
