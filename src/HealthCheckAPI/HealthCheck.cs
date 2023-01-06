@@ -6,12 +6,14 @@ namespace HealthCheckAPI;
 public class HealthCheck : IHealthCheck
 {
     private readonly HttpClient _client;
-    private const string _host = "https://10.0.0.0";
-    private const long _healthyRoundtripTime = 300L;
+    private readonly string _host;
+    private readonly long _healthyRoundtripTime;
 
-    public HealthCheck(HttpClient client)
+    public HealthCheck(HttpClient client, string host, long healthyRoundtripTime)
     {
-        _client = client;
+        _client = client ?? throw new ArgumentNullException(nameof(client));
+        _host = host ?? throw new ArgumentNullException(nameof(host));
+        _healthyRoundtripTime = healthyRoundtripTime;
     }
 
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
@@ -26,13 +28,17 @@ public class HealthCheck : IHealthCheck
 
             response.EnsureSuccessStatusCode();
 
+            var message = $"Request sent to {_host} took {stopWatch.ElapsedMilliseconds} ms.";
+
             return (stopWatch.ElapsedMilliseconds > _healthyRoundtripTime)
-                ? HealthCheckResult.Degraded()
-                : HealthCheckResult.Healthy();
+                ? HealthCheckResult.Degraded(message)
+                : HealthCheckResult.Healthy(message);
         }
         catch (HttpRequestException exception)
         {
-            return HealthCheckResult.Unhealthy("Unhealthy", exception);
+            var errorMessage = $"Request sent to {_host} failed: {exception.Message}";
+
+            return HealthCheckResult.Unhealthy(errorMessage, exception);
         }
     }
 }

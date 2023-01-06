@@ -3,7 +3,7 @@ global using HealthCheckAPI;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHealthChecks()
-    .AddCheck<HealthCheck>("Health");
+    .AddCheck("Health", new HealthCheck(new HttpClient(), "https://10.0.0.0", 300L));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
