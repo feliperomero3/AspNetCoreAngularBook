@@ -28,7 +28,7 @@ public class HealthCheck : IHealthCheck
 
             response.EnsureSuccessStatusCode();
 
-            var message = $"Request sent to {_host} took {stopWatch.ElapsedMilliseconds} ms.";
+            var message = $"Request sent to {_host}.";
 
             return (stopWatch.ElapsedMilliseconds > _healthyRoundtripTime)
                 ? HealthCheckResult.Degraded(message)
@@ -38,7 +38,7 @@ public class HealthCheck : IHealthCheck
         {
             var errorMessage = $"Request sent to {_host} failed: {exception.Message}";
 
-            return HealthCheckResult.Unhealthy(errorMessage, exception);
+            return HealthCheckResult.Unhealthy(errorMessage);
         }
     }
 }

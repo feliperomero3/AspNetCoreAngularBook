@@ -1,4 +1,5 @@
 global using HealthCheckAPI;
+global using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +22,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseHealthChecks(new PathString("/health"));
+app.UseHealthChecks(new PathString("/health"), new CustomHealthCheckOptions());
 
 app.UseAuthorization();
 
