@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+
 import { environment } from '../../environments/environment';
 
 @Component({
@@ -8,7 +9,6 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./fetch-data.component.css']
 })
 export class FetchDataComponent implements OnInit {
-
   public forecasts?: WeatherForecast[];
 
   constructor(private http: HttpClient) {
@@ -19,7 +19,7 @@ export class FetchDataComponent implements OnInit {
   }
 
   getWeatherForecast(): void {
-    this.http.get<WeatherForecast[]>(`${environment.baseUrl}weatherforecast`).subscribe(result => {
+    this.http.get<WeatherForecast[]>(`${environment.baseUrl}/weatherforecast`).subscribe(result => {
       this.forecasts = result;
     }, error => console.error(error));
   }

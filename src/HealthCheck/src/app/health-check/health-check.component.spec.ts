@@ -2,18 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
-import { FetchDataComponent, WeatherForecast } from './fetch-data.component';
+import { HealthCheckComponent, Result } from './health-check.component';
 
-describe('FetchDataComponent', () => {
-  let component: FetchDataComponent;
-  let fixture: ComponentFixture<FetchDataComponent>;
+describe('HealthCheckComponent', () => {
+  let component: HealthCheckComponent;
+  let fixture: ComponentFixture<HealthCheckComponent>;
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
-  let weatherForecast: WeatherForecast[];
+  let healthChecks: Result[];
 
   beforeEach(async () => {
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
     await TestBed.configureTestingModule({
-      declarations: [FetchDataComponent],
+      declarations: [HealthCheckComponent],
       providers: [
         { provide: HttpClient, useValue: httpClientSpy }
       ]
@@ -21,9 +21,9 @@ describe('FetchDataComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FetchDataComponent);
+    fixture = TestBed.createComponent(HealthCheckComponent);
     component = fixture.componentInstance;
-    httpClientSpy.get.and.returnValue(of(weatherForecast));
+    httpClientSpy.get.and.returnValue(of(healthChecks));
     fixture.detectChanges();
   });
 
