@@ -19,6 +19,20 @@ Based on the Web Applications built in the Book 'ASP.NET Core 6 and Angular Fift
 1. Build the solution.
 1. Press F5 to launch both projects in debug mode.
 
+## Screen captures
+
+![Home page](./assets/01-healthcheck-home.png)
+_Home page_
+
+![Fetch data](./assets/02-healthcheck-fetch-data.png)
+_Fetch data_
+
+![Health check](./assets/03-healthcheck-health-check.png)
+_Health check_
+
+![Health check api](./assets/04-healthcheck-health-check-api.png)
+_Health check api_
+
 ## License
 
 [MIT License](./LICENSE)
