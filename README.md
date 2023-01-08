@@ -21,16 +21,16 @@ Based on the Web Applications built in the Book 'ASP.NET Core 6 and Angular Fift
 
 ## Screen captures
 
-![Home page](./assets/01-healthcheck-home.png)
+![Home page](./assets/01-healthcheck-home.png)  
 _Home page_
 
-![Fetch data](./assets/02-healthcheck-fetch-data.png)
+![Fetch data](./assets/02-healthcheck-fetch-data.png)  
 _Fetch data_
 
-![Health check](./assets/03-healthcheck-health-check.png)
+![Health check](./assets/03-healthcheck-health-check.png)  
 _Health check_
 
-![Health check api](./assets/04-healthcheck-health-check-api.png)
+![Health check api](./assets/04-healthcheck-health-check-api.png)  
 _Health check api_
 
 ## License
