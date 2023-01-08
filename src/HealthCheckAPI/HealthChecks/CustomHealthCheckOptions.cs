@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using System.Text.Json;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 namespace HealthCheckAPI.HealthChecks;

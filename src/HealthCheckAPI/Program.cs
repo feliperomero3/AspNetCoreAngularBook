@@ -1,5 +1,4 @@
-global using HealthCheckAPI;
-global using System.Text.Json;
+using HealthCheckAPI.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
