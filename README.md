@@ -15,7 +15,7 @@ Based on the Web Applications built in the Book 'ASP.NET Core 6 and Angular Fift
 
 1. Clone this repository.
 1. Open the solution file.
-1. Configure multiple startup projects setting.
+1. Configure multiple startup projects setting and select Start for each project's action.
 1. Build the solution.
 1. Press F5 to launch both projects in debug mode.
 
