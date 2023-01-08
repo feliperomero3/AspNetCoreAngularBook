@@ -1,7 +1,7 @@
 using System.Net.Mime;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
-namespace HealthCheckAPI;
+namespace HealthCheckAPI.HealthChecks;
 
 public class CustomHealthCheckOptions : HealthCheckOptions
 {
@@ -24,7 +24,7 @@ public class CustomHealthCheckOptions : HealthCheckOptions
                     Name = entry.Key,
                     ResponseTime = entry.Value.Duration.TotalMilliseconds,
                     Status = entry.Value.Status.ToString(),
-                    Description = entry.Value.Description
+                    entry.Value.Description
                 }),
                 TotalStatus = healthReport.Status.ToString(),
                 TotalResponseTime = healthReport.TotalDuration.TotalMilliseconds

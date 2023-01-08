@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace HealthCheckAPI;
+namespace HealthCheckAPI.HealthChecks;
 
 public class HealthCheck : IHealthCheck
 {
@@ -33,7 +33,7 @@ public class HealthCheck : IHealthCheck
 
             var message = $"Request sent to {_host}.";
 
-            return (stopWatch.ElapsedMilliseconds > _healthyRoundtripTime)
+            return stopWatch.ElapsedMilliseconds > _healthyRoundtripTime
                 ? HealthCheckResult.Degraded(message)
                 : HealthCheckResult.Healthy(message);
         }
