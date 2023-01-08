@@ -13,7 +13,10 @@ public class HealthCheck : IHealthCheck
     {
         _host = host ?? throw new ArgumentNullException(nameof(host));
         _healthyRoundtripTime = healthyRoundtripTime;
-        _client = new HttpClient();
+        _client = new HttpClient
+        {
+            Timeout = TimeSpan.FromSeconds(1)
+        };
     }
 
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
