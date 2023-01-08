@@ -17,7 +17,7 @@
     <tr *ngFor="let check of result.checks">
       <td>{{ check.name }}</td>
       <td>{{ check.responseTime }}</td>
-      <td class="status {{ check.status }}">{{ check.status }}</td>
+      <td class="status {{ check.status | lowercase }}">{{ check.status }}</td>
       <td>{{ check.description }}</td>
     </tr>
   </tbody>
