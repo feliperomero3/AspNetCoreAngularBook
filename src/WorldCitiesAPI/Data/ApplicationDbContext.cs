@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using WorldCitiesAPI.Data.Configurations;
 using WorldCitiesAPI.Entities;
 
 namespace WorldCitiesAPI.Data;
@@ -8,7 +9,7 @@ namespace WorldCitiesAPI.Data;
 /// </summary>
 public class ApplicationDbContext : DbContext
 {
-    internal ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+    internal ApplicationDbContext(DbContextOptions options) : base(options)
     {
     }
 
@@ -20,7 +21,8 @@ public class ApplicationDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Country>().ToTable("Countries");
-        modelBuilder.Entity<City>().ToTable("Cities");
+        modelBuilder
+            .ApplyConfiguration(new CountryConfiguration())
+            .ApplyConfiguration(new CityConfiguration());
     }
 }
