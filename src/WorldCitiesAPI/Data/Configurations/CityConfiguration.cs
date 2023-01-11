@@ -20,6 +20,7 @@ public class CityConfiguration : IEntityTypeConfiguration<City>
             .IsRequired();
 
         builder.Property(t => t.Name)
+            .HasColumnType("varchar")
             .HasMaxLength(64)
             .IsRequired();
 
