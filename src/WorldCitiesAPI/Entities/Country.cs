@@ -8,27 +8,27 @@ public class Country
     /// <summary>
     /// The country unique Id.
     /// </summary>
-    public long CountryId { get; set; }
+    public long CountryId { get; private set; }
 
     /// <summary>
     /// The country name.
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; private set; }
 
     /// <summary>
     /// The country code in ISO 3166-1 ALPHA-2 format.
     /// </summary>
-    public string Iso2 { get; set; }
+    public string Iso2 { get; private set; }
 
     /// <summary>
     /// The country code in ISO 3166-1 ALPHA-3 format.
     /// </summary>
-    public string Iso3 { get; set; }
+    public string Iso3 { get; private set; }
 
     /// <summary>
     /// The cities that constitute the country.
     /// </summary>
-    public IReadOnlyCollection<City> Cities { get; set; } = new HashSet<City>();
+    public IReadOnlyCollection<City> Cities { get; private set; } = new HashSet<City>();
 
     /// <summary>
     /// Initializes a new instance of <see cref="Country"/> class.

@@ -28,22 +28,21 @@ public class City
     /// <summary>
     /// The country the city belongs to.
     /// </summary>
-    public Country Country { get; set; }
+    public Country? Country { get; private set; }
 
     /// <summary>
     /// Initializes a new instance of <see cref="City"/> class.
     /// </summary>
-    /// <param name="id">The city unique Id.</param>
+    /// <param name="cityId">The city unique Id.</param>
     /// <param name="name">The city name.</param>
     /// <param name="latitude">The city latitude.</param>
     /// <param name="longitude">The city longitude.</param>
     /// <param name="country">The country the city belongs to.</param>
-    internal City(long id, string name, decimal latitude, decimal longitude, Country country)
+    internal City(long cityId, string name, decimal latitude, decimal longitude)
     {
-        CityId = id;
+        CityId = cityId;
         Name = name;
         Latitude = latitude;
         Longitude = longitude;
-        Country = country;
     }
 }

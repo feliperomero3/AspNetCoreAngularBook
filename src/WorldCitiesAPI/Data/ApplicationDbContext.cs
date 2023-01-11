@@ -8,13 +8,13 @@ namespace WorldCitiesAPI.Data;
 /// </summary>
 public class ApplicationDbContext : DbContext
 {
-    internal ApplicationDbContext(DbContextOptions options) : base(options)
+    public ApplicationDbContext(DbContextOptions options) : base(options)
     {
     }
 
-    internal DbSet<Country> Countries { get; set; }
+    public DbSet<Country> Countries { get; set; }
 
-    internal DbSet<City> City { get; set; }
+    public DbSet<City> City { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
