@@ -33,5 +33,12 @@ public class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.HasMany(t => t.Cities)
             .WithOne(t => t.Country)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasIndex(b => b.Name)
+            .IsUnique();
+        builder.HasIndex(b => b.Iso2)
+            .IsUnique();
+        builder.HasIndex(b => b.Iso3)
+            .IsUnique();
     }
 }

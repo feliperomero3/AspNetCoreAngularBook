@@ -30,5 +30,8 @@ public class CityConfiguration : IEntityTypeConfiguration<City>
         builder.Property(t => t.Longitude)
             .HasColumnType("decimal(7,4)")
             .IsRequired();
+
+        builder.HasIndex(b => b.Name)
+            .IsUnique();
     }
 }
