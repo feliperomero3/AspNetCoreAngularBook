@@ -37,12 +37,44 @@ public class City
     /// <param name="name">The city name.</param>
     /// <param name="latitude">The city latitude.</param>
     /// <param name="longitude">The city longitude.</param>
-    /// <param name="country">The country the city belongs to.</param>
     internal City(long cityId, string name, decimal latitude, decimal longitude)
     {
         CityId = cityId;
         Name = name;
         Latitude = latitude;
         Longitude = longitude;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of <see cref="City"/> class.
+    /// </summary>
+    /// <param name="name">The city name.</param>
+    /// <param name="latitude">The city latitude.</param>
+    /// <param name="longitude">The city longitude.</param>
+    internal City(string name, decimal latitude, decimal longitude) : this(0L, name, latitude, longitude)
+    {
+        Name = name;
+        Latitude = latitude;
+        Longitude = longitude;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is not City other)
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return Name == other.Name;
+    }
+
+    public override int GetHashCode()
+    {
+        return (GetType().ToString() + Name).GetHashCode();
     }
 }

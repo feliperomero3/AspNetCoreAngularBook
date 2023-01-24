@@ -44,4 +44,37 @@ public class Country
         Iso2 = iso2;
         Iso3 = iso3;
     }
+
+    /// <summary>
+    /// Initializes a new instance of <see cref="Country"/> class.
+    /// </summary>
+    /// <param name="name">The country name.</param>
+    /// <param name="iso2">The country code in ISO 3166-1 ALPHA-2 format.</param>
+    /// <param name="iso3">The country code in ISO 3166-1 ALPHA-3 format.</param>
+    internal Country(string name, string iso2, string iso3) : this(0L, name, iso2, iso3)
+    {
+        Name = name;
+        Iso2 = iso2;
+        Iso3 = iso3;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is not Country other)
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return Name == other.Name;
+    }
+
+    public override int GetHashCode()
+    {
+        return (GetType().ToString() + Name).GetHashCode();
+    }
 }
