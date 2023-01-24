@@ -70,7 +70,7 @@ public class Country
             return true;
         }
 
-        return Name == other.Name;
+        return string.Equals(Name, other.Name, StringComparison.InvariantCultureIgnoreCase);
     }
 
     public override int GetHashCode()

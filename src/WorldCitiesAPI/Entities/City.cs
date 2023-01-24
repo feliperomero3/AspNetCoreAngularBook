@@ -51,11 +51,12 @@ public class City
     /// <param name="name">The city name.</param>
     /// <param name="latitude">The city latitude.</param>
     /// <param name="longitude">The city longitude.</param>
-    internal City(string name, decimal latitude, decimal longitude) : this(0L, name, latitude, longitude)
+    internal City(string name, decimal latitude, decimal longitude, Country country) : this(0L, name, latitude, longitude)
     {
         Name = name;
         Latitude = latitude;
         Longitude = longitude;
+        Country = country;
     }
 
     public override bool Equals(object? obj)
@@ -70,11 +71,11 @@ public class City
             return true;
         }
 
-        return Name == other.Name;
+        return string.Equals(Name, other.Name, StringComparison.InvariantCultureIgnoreCase);
     }
 
     public override int GetHashCode()
     {
-        return (GetType().ToString() + Name).GetHashCode();
+        return (GetType().ToString() + Name.ToLower()).GetHashCode();
     }
 }
