@@ -14,7 +14,7 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<Country> Countries { get; set; }
 
-    public DbSet<City> City { get; set; }
+    public DbSet<City> Cities { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
