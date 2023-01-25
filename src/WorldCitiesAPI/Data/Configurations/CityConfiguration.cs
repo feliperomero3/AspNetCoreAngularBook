@@ -32,7 +32,9 @@ public class CityConfiguration : IEntityTypeConfiguration<City>
             .HasColumnType("decimal(7,4)")
             .IsRequired();
 
-        builder.HasIndex(b => b.Name)
+        builder.HasIndex(b => b.Name);
+
+        builder.HasIndex(new[] { "Name", "Latitude", "Longitude" })
             .IsUnique();
     }
 }

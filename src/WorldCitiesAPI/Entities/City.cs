@@ -76,6 +76,6 @@ public class City
 
     public override int GetHashCode()
     {
-        return (GetType().ToString() + Name.ToLower()).GetHashCode();
+        return (GetType().ToString() + Name).GetHashCode();
     }
 }
