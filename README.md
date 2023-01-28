@@ -38,3 +38,5 @@ _Health check api_
 [MIT License](./LICENSE)
 
 Copyright &copy; 2022 Felipe Romero
+
+Basic World Cities Database: This database is licensed under the Creative Commons Attribution 4.0 license as described at: <https://creativecommons.org/licenses/by/4.0>.
