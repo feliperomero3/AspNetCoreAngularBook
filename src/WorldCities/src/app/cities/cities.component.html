@@ -1,0 +1,21 @@
+<h1>Cities</h1>
+<p class="lead">Here's a list of cities.</p>
+<p *ngIf="cities.length == 0"><em>Loading...</em></p>
+<table class='table table-striped' aria-labelledby="tableLabel" [hidden]="cities.length == 0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let city of cities">
+      <td>{{ city.cityId }}</td>
+      <td>{{ city.name }}</td>
+      <td>{{ city.latitude }}</td>
+      <td>{{ city.longitude }}</td>
+    </tr>
+  </tbody>
+</table>
