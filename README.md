@@ -21,6 +21,8 @@ Based on the Web Applications built in the Book 'ASP.NET Core 6 and Angular Fift
 
 ## Screen captures
 
+### HealthCheck
+
 ![Home page](./assets/01-healthcheck-home.png)  
 _Home page_
 
@@ -33,7 +35,17 @@ _Health check_
 ![Health check api](./assets/04-healthcheck-health-check-api.png)  
 _Health check api_
 
+### WorldCities
+
+![Home page](./assets/05-worldcities-home.png)  
+_Home page_
+
+![Cities page](./assets/06-worldcities-cities.png)  
+_Cities page_
+
 ## License
+
+	MIT License
 
 	Copyright (c) 2022 Felipe Romero
 
@@ -55,4 +67,7 @@ _Health check api_
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 	SOFTWARE.
 
-	Basic World Cities Database: This database is licensed under the Creative Commons Attribution 4.0 license as described at: <https://creativecommons.org/licenses/by/4.0>.
+	---
+
+	Basic World Cities Database is licensed under the Creative Commons Attribution 4.0
+	license as described at: <https://creativecommons.org/licenses/by/4.0>.
