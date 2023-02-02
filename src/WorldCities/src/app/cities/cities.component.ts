@@ -9,6 +9,7 @@ import { City } from './city';
   styleUrls: ['./cities.component.scss']
 })
 export class CitiesComponent implements OnInit {
+  public displayedColumns: string[] = ['cityId', 'name', 'latitude', 'longitude'];
   public cities: City[] = [];
 
   constructor(private http: HttpClient) { }

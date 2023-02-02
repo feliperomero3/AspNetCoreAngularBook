@@ -1,8 +1,28 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { Directive, Input } from '@angular/core';
 
 import { CitiesComponent } from './cities.component';
 import { City } from './city';
+
+@Directive({
+  selector: '[matRowDef]'
+})
+export class StubMatRowDefDirective {
+  @Input() matRowDefColumns: string[] = [];
+}
+@Directive({
+  selector: '[matHeaderRowDef]'
+})
+export class StubMatHeaderRowDefDirective {
+  @Input() matHeaderRowDef: string = '';
+}
+@Directive({
+  selector: '[dataSource]'
+})
+export class StubDataSourceDirective {
+  @Input() dataSource: string = '';
+}
 
 describe('CitiesComponent', () => {
   let component: CitiesComponent;
@@ -15,7 +35,10 @@ describe('CitiesComponent', () => {
         HttpClientTestingModule
       ],
       declarations: [
-        CitiesComponent
+        CitiesComponent,
+        StubMatRowDefDirective,
+        StubMatHeaderRowDefDirective,
+        StubDataSourceDirective
       ]
     }).compileComponents();
 
