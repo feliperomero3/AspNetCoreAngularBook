@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { Directive, Input } from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 
 import { CitiesComponent } from './cities.component';
 import { City } from './city';
@@ -23,6 +24,13 @@ export class StubMatHeaderRowDefDirective {
 export class StubDataSourceDirective {
   @Input() dataSource: string = '';
 }
+@Component({
+  selector: 'mat-paginator'
+})
+class StubMatPaginatorComponent {
+  @Input() pageSize?: number;
+  @Input() pageSizeOptions?: number[];
+}
 
 describe('CitiesComponent', () => {
   let component: CitiesComponent;
@@ -38,7 +46,8 @@ describe('CitiesComponent', () => {
         CitiesComponent,
         StubMatRowDefDirective,
         StubMatHeaderRowDefDirective,
-        StubDataSourceDirective
+        StubDataSourceDirective,
+        StubMatPaginatorComponent
       ]
     }).compileComponents();
 
@@ -48,6 +57,7 @@ describe('CitiesComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CitiesComponent);
     component = fixture.componentInstance;
+    component.cities = new MatTableDataSource<City>([]);
     fixture.detectChanges();
   });
 
@@ -60,6 +70,6 @@ describe('CitiesComponent', () => {
     const req = httpTestingController.expectOne('api/cities');
     req.flush(testData);
     httpTestingController.verify();
-    expect(component.cities.length).toBe(1);
+    expect(component.cities.data.length).toBe(1);
   });
 });

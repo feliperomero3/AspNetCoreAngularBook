@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "prestart": "node aspnetcore-https",
-    "backend": "dotnet run --launch-profile https --project ..\\WorldCitiesAPI\\WorldCitiesAPI.csproj"
+    "backend": "dotnet watch run --launch-profile https --project ..\\WorldCitiesAPI\\WorldCitiesAPI.csproj"
   },
   "private": true,
   "dependencies": {
