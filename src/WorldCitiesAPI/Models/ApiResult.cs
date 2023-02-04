@@ -1,4 +1,6 @@
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 
 namespace WorldCitiesAPI.Models;
 
@@ -41,15 +43,27 @@ public class ApiResult<T>
     public bool HasNextPage => PageIndex + 1 < TotalPages;
 
     /// <summary>
+    /// Sorting Column name (or null if none set)
+    /// </summary>
+    public string? SortColumn { get; set; }
+
+    /// <summary>
+    /// Sorting Order ("ASC", "DESC" or null if none set)
+    /// </summary>
+    public string? SortOrder { get; set; }
+
+    /// <summary>
     /// Private constructor called by the CreateAsync method.
     /// </summary>
-    private ApiResult(List<T> data, int count, int pageIndex, int pageSize)
+    private ApiResult(List<T> data, int count, int pageIndex, int pageSize, string? sortColumn, string? sortOrder)
     {
         Data = data;
+        TotalCount = count;
         PageIndex = pageIndex;
         PageSize = pageSize;
-        TotalCount = count;
         TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+        SortColumn = sortColumn;
+        SortOrder = sortOrder;
     }
 
     /// <summary>
@@ -58,15 +72,40 @@ public class ApiResult<T>
     /// <param name="source">An IQueryable source of type T.</param>
     /// <param name="pageIndex">Zero-based current page index.</param>
     /// <param name="pageSize">The actual size of each page.</param>
+    /// <param name="sortColumn">The sorting column name.</param>
+    /// <param name="sortOrder">The sorting order.</param>
     /// <returns>An object containing the paged result and paging navigation information.</returns>
-    public static async Task<ApiResult<T>> CreateAsync(IQueryable<T> source, int pageIndex, int pageSize)
+    public static async Task<ApiResult<T>> CreateAsync(IQueryable<T> source, int pageIndex, int pageSize, string? sortColumn = null, string? sortOrder = null)
     {
         var count = await source.CountAsync();
+
+        if (!string.IsNullOrEmpty(sortColumn) && IsValidProperty(sortColumn))
+        {
+            sortOrder = !string.IsNullOrEmpty(sortOrder) && sortOrder.ToUpper() == "ASC" ? "ASC" : "DESC";
+
+            source = source.OrderBy(string.Format("{0} {1}", sortColumn, sortOrder));
+        }
 
         source = source.Skip(pageIndex * pageSize).Take(pageSize);
 
         var data = await source.ToListAsync();
 
-        return new ApiResult<T>(data, count, pageIndex, pageSize);
+        return new ApiResult<T>(data, count, pageIndex, pageSize, sortColumn, sortOrder);
+    }
+
+    /// <summary>
+    /// Checks if the given property name exists
+    /// to protect against SQL injection attacks
+    /// </summary>
+    public static bool IsValidProperty(string propertyName, bool throwExceptionIfNotFound = true)
+    {
+        var property = typeof(T).GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+
+        if (property == null)
+        {
+            throw new NotSupportedException($"Property '{propertyName}' does not exist.");
+        }
+
+        return property != null;
     }
 }
