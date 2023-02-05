@@ -22,9 +22,11 @@ public class CitiesController : ControllerBase
         int pageIndex = 0,
         int pageSize = 10,
         string? sortColumn = null,
-        string? sortOrder = null)
+        string? sortOrder = null,
+        string? filterColumn = null,
+        string? filterQuery = null)
     {
-        var result = await ApiResult<City>.CreateAsync(_context.Cities.AsNoTracking(), pageIndex, pageSize, sortColumn, sortOrder);
+        var result = await ApiResult<City>.CreateAsync(_context.Cities.AsNoTracking(), pageIndex, pageSize, sortColumn, sortOrder, filterColumn, filterQuery);
 
         return result;
     }
