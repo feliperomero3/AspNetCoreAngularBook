@@ -1,124 +1,108 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorldCitiesAPI.Data;
 using WorldCitiesAPI.Entities;
+using WorldCitiesAPI.Models;
 
-namespace WorldCitiesAPI.Controllers
+namespace WorldCitiesAPI.Controllers;
+
+[Route("api/countries")]
+[ApiController]
+public class CountriesController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CountriesController : ControllerBase
+    private readonly ApplicationDbContext _context;
+
+    public CountriesController(ApplicationDbContext context)
     {
-        private readonly ApplicationDbContext _context;
+        _context = context ?? throw new ArgumentNullException(nameof(context));
+    }
 
-        public CountriesController(ApplicationDbContext context)
+    [HttpGet]
+    public async Task<ActionResult<ApiResult<Country>>> GetCountries(
+        int pageIndex = 0,
+        int pageSize = 10,
+        string? sortColumn = null,
+        string? sortOrder = null,
+        string? filterColumn = null,
+        string? filterQuery = null)
+    {
+        var result = await ApiResult<Country>.CreateAsync(
+            _context.Countries.AsNoTracking(), pageIndex, pageSize, sortColumn, sortOrder, filterColumn, filterQuery);
+
+        return result;
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Country>> GetCountry(long id)
+    {
+        var country = await _context.Countries.FindAsync(id);
+
+        if (country == null)
         {
-            _context = context;
+            return NotFound();
         }
 
-        // GET: api/Countries
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Country>>> GetCountries()
+        return country;
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutCountry(long id, Country country)
+    {
+        if (id != country.CountryId)
         {
-          if (_context.Countries == null)
-          {
-              return NotFound();
-          }
-            return await _context.Countries.ToListAsync();
+            return BadRequest();
         }
 
-        // GET: api/Countries/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Country>> GetCountry(long id)
+        _context.Entry(country).State = EntityState.Modified;
+
+        try
         {
-          if (_context.Countries == null)
-          {
-              return NotFound();
-          }
-            var country = await _context.Countries.FindAsync(id);
-
-            if (country == null)
-            {
-                return NotFound();
-            }
-
-            return country;
-        }
-
-        // PUT: api/Countries/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCountry(long id, Country country)
-        {
-            if (id != country.CountryId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(country).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CountryExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Countries
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Country>> PostCountry(Country country)
-        {
-          if (_context.Countries == null)
-          {
-              return Problem("Entity set 'ApplicationDbContext.Countries'  is null.");
-          }
-            _context.Countries.Add(country);
             await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCountry", new { id = country.CountryId }, country);
         }
-
-        // DELETE: api/Countries/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCountry(long id)
+        catch (DbUpdateConcurrencyException)
         {
-            if (_context.Countries == null)
+            if (!CountryExists(id))
             {
                 return NotFound();
             }
-            var country = await _context.Countries.FindAsync(id);
-            if (country == null)
+            else
             {
-                return NotFound();
+                throw;
             }
-
-            _context.Countries.Remove(country);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
-        private bool CountryExists(long id)
+        return NoContent();
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<Country>> PostCountry(Country country)
+    {
+        _context.Countries.Add(country);
+
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction("GetCountry", new { id = country.CountryId }, country);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteCountry(long id)
+    {
+        var country = await _context.Countries.FindAsync(id);
+
+        if (country == null)
         {
-            return (_context.Countries?.Any(e => e.CountryId == id)).GetValueOrDefault();
+            return NotFound();
         }
+
+        _context.Countries.Remove(country);
+
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    private bool CountryExists(long id)
+    {
+        return (_context.Countries?.Any(e => e.CountryId == id)).GetValueOrDefault();
     }
 }

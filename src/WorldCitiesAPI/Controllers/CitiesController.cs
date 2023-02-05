@@ -26,7 +26,8 @@ public class CitiesController : ControllerBase
         string? filterColumn = null,
         string? filterQuery = null)
     {
-        var result = await ApiResult<City>.CreateAsync(_context.Cities.AsNoTracking(), pageIndex, pageSize, sortColumn, sortOrder, filterColumn, filterQuery);
+        var result = await ApiResult<City>.CreateAsync(
+            _context.Cities.AsNoTracking(), pageIndex, pageSize, sortColumn, sortOrder, filterColumn, filterQuery);
 
         return result;
     }
