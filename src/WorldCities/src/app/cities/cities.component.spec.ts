@@ -66,8 +66,8 @@ describe('CitiesComponent', () => {
   });
 
   it('should get the cities', () => {
-    const testData: City[] = [{ cityId: 1, name: 'Tokyo', latitude: 100, longitude: 200 }];
-    const req = httpTestingController.expectOne('api/cities');
+    const testData = { data: [{ cityId: 1, name: 'Tokyo', latitude: 100, longitude: 200 }] };
+    const req = httpTestingController.expectOne('api/cities?pageIndex=0&pageSize=10&sortColumn=name&sortOrder=asc');
     req.flush(testData);
     httpTestingController.verify();
     expect(component.cities.data.length).toBe(1);

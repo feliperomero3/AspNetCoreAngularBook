@@ -58,9 +58,11 @@ export class CitiesComponent implements OnInit, AfterViewInit {
     this.http.get<any>(environment.baseUrl + 'api/cities', { params: params })
       .subscribe({
         next: result => {
-          this.paginator.length = result.totalCount;
-          this.paginator.pageIndex = result.pageIndex;
-          this.paginator.pageSize = result.pageSize;
+          if (this.paginator) {
+            this.paginator.length = result.totalCount;
+            this.paginator.pageIndex = result.pageIndex;
+            this.paginator.pageSize = result.pageSize;
+          }
           this.cities = new MatTableDataSource<City>(result.data);
         },
         error: err => console.error(err)
