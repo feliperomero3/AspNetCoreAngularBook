@@ -27,6 +27,8 @@ export class CitiesComponent implements OnInit, AfterViewInit {
 
   constructor(private http: HttpClient) {
     this.pageEvent = new PageEvent();
+    this.pageEvent.pageIndex = this.defaultPageIndex;
+    this.pageEvent.pageSize = this.defaultPageSize;
   }
 
   ngAfterViewInit(): void {
@@ -38,8 +40,6 @@ export class CitiesComponent implements OnInit, AfterViewInit {
   }
 
   loadData(query?: string): void {
-    this.pageEvent.pageIndex = this.defaultPageIndex;
-    this.pageEvent.pageSize = this.defaultPageSize;
     this.filterQuery = query;
     this.getCities(this.pageEvent);
   }
