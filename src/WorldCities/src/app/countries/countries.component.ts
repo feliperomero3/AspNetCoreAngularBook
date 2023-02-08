@@ -32,7 +32,9 @@ export class CountriesComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.countries.paginator = this.paginator;
+    if (this.countries) {
+      this.countries.paginator = this.paginator;
+    }
   }
 
   ngOnInit(): void {

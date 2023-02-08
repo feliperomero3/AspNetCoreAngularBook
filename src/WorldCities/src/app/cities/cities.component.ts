@@ -32,7 +32,9 @@ export class CitiesComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.cities.paginator = this.paginator;
+    if (this.cities) {
+      this.cities.paginator = this.paginator;
+    }
   }
 
   ngOnInit(): void {
