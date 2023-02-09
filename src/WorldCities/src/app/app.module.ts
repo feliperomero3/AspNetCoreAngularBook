@@ -10,6 +10,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { CitiesComponent } from './cities/cities.component';
 import { AngularMaterialModule } from './angular-material.module';
 import { CountriesComponent } from './countries/countries.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { CountriesComponent } from './countries/countries.component';
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
