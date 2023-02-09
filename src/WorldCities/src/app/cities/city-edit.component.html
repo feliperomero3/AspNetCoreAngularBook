@@ -1,0 +1,25 @@
+<h1>Edit - City</h1>
+
+<p *ngIf="!city"><em>Loading...</em></p>
+
+<div class="city-edit">
+  <h2>{{title}}</h2>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Latitude</mat-label>
+      <input matInput formControlName="latitude" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Longitude</mat-label>
+      <input matInput formControlName="longitude" required>
+    </mat-form-field>
+    <div>
+      <button mat-flat-button color="primary" type="submit">Save</button>
+      <button mat-flat-button color="secondary" [routerLink]="['/cities']">Cancel</button>
+    </div>
+  </form>
+</div>
