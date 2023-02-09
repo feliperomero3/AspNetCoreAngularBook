@@ -3,7 +3,6 @@
 <p *ngIf="!city"><em>Loading...</em></p>
 
 <div class="city-edit">
-  <h2>{{title}}</h2>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <mat-form-field>
       <mat-label>Name</mat-label>

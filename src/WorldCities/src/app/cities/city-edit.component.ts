@@ -11,7 +11,6 @@ import { City } from './city';
   styleUrls: ['./city-edit.component.scss']
 })
 export class CityEditComponent implements OnInit {
-  title = '';
   city!: City;
   form = new FormGroup({
     name: new FormControl(''),
@@ -33,7 +32,6 @@ export class CityEditComponent implements OnInit {
     this.http.get<City>(environment.baseUrl + `api/cities/${id}`).subscribe({
       next: city => {
         this.city = city;
-        this.title = "Edit - " + this.city.name;
         this.form.patchValue(this.city);
       },
       error: err => console.error(err)
