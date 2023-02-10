@@ -12,6 +12,7 @@ import { City } from './city';
 })
 export class CityEditComponent implements OnInit {
   city!: City;
+  id?: number;
   form = new FormGroup({
     name: new FormControl(''),
     latitude: new FormControl(''),
@@ -24,11 +25,13 @@ export class CityEditComponent implements OnInit {
     private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.loadData();
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if (id) {
+      this.getCity(+id);
+    }
   }
 
-  loadData() {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
+  getCity(id: number): void {
     this.http.get<City>(environment.baseUrl + `api/cities/${id}`).subscribe({
       next: city => {
         this.city = city;
@@ -38,18 +41,40 @@ export class CityEditComponent implements OnInit {
     });
   }
 
+  createCity(city: City): void {
+    this.http.post<City>(environment.baseUrl + `api/cities`, city).subscribe({
+      next: () => {
+        console.log(`City ${city.name} has been updated.`)
+      },
+      error: err => console.error(err)
+    })
+
+  }
+
+  updateCity(city: City): void {
+    this.http.put<City>(environment.baseUrl + `api/cities/${city.cityId}`, city).subscribe({
+      next: () => {
+        console.log(`City ${city.name} has been updated.`)
+      },
+      error: err => console.error(err)
+    })
+  }
+
   onSubmit(): void {
     let city = this.city;
     city.name = this.form.controls['name'].value;
     city.latitude = this.form.controls['latitude'].value;
     city.longitude = this.form.controls['longitude'].value;
 
-    this.http.put<City>(environment.baseUrl + `api/cities/${city.cityId}`, city).subscribe({
-      next: () => {
-        console.log(`City ${city.name} has been updated.`)
-        this.router.navigate(['/cities']);
-      },
-      error: err => console.error(err)
-    })
+    if (this.city) {
+      this.updateCity(city);
+    } else {
+      this.createCity(city);
+    }
+    this.router.navigate(['/cities']);
+  }
+
+  onCancel(): void {
+    this.router.navigate(['/cities']);
   }
 }

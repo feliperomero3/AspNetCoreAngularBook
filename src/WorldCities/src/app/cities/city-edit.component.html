@@ -1,6 +1,6 @@
 <h1>Edit - City</h1>
 
-<p *ngIf="!city"><em>Loading...</em></p>
+<p *ngIf="!city && id"><em>Loading...</em></p>
 
 <div class="city-edit">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -17,8 +17,8 @@
       <input matInput formControlName="longitude" required>
     </mat-form-field>
     <div>
-      <button mat-flat-button color="primary" type="submit">Save</button>
-      <button mat-flat-button color="secondary" [routerLink]="['/cities']">Cancel</button>
+      <button mat-flat-button color="primary" type="submit">{{id ? "Save" : "Create"}}</button>
+      <button mat-flat-button color="secondary" (click)="onCancel()">Cancel</button>
     </div>
   </form>
 </div>
