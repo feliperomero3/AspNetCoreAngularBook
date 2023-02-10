@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { environment } from './../../environments/environment';
 import { City } from './city';
+import { Country } from '../countries/country';
 
 @Component({
   selector: 'app-city-edit',
@@ -13,10 +14,12 @@ import { City } from './city';
 export class CityEditComponent implements OnInit {
   city!: City;
   id?: number;
+  countries?: Country[];
   form = new FormGroup({
     name: new FormControl(''),
     latitude: new FormControl(''),
-    longitude: new FormControl('')
+    longitude: new FormControl(''),
+    countryId: new FormControl('')
   });
 
   constructor(
@@ -25,10 +28,24 @@ export class CityEditComponent implements OnInit {
     private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.getCountries();
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id) {
       this.getCity(+id);
     }
+  }
+
+  getCountries(): void {
+    var params = new HttpParams()
+      .set("pageIndex", "0")
+      .set("pageSize", "9999")
+      .set("sortColumn", "name");
+    this.http.get<any>(environment.baseUrl + 'api/countries', { params: params }).subscribe({
+      next: result => {
+        this.countries = result.data;
+      },
+      error: err => console.error(err)
+    });
   }
 
   getCity(id: number): void {
@@ -44,7 +61,7 @@ export class CityEditComponent implements OnInit {
   createCity(city: City): void {
     this.http.post<City>(environment.baseUrl + `api/cities`, city).subscribe({
       next: () => {
-        console.log(`City ${city.name} has been updated.`)
+        console.log(`City ${city.name} has been created.`)
       },
       error: err => console.error(err)
     })
@@ -61,12 +78,13 @@ export class CityEditComponent implements OnInit {
   }
 
   onSubmit(): void {
-    let city = this.city;
+    let city = <City>{};
     city.name = this.form.controls['name'].value;
-    city.latitude = this.form.controls['latitude'].value;
-    city.longitude = this.form.controls['longitude'].value;
-
+    city.latitude = +this.form.controls['latitude'].value;
+    city.longitude = +this.form.controls['longitude'].value;
+    city.countryId = +this.form.controls['countryId'].value;
     if (this.city) {
+      city.cityId = this.city.cityId;
       this.updateCity(city);
     } else {
       this.createCity(city);

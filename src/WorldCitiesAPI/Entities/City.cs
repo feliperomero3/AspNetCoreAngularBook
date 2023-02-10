@@ -59,6 +59,21 @@ public class City
         Country = country;
     }
 
+    /// <summary>
+    /// Update the country the city belongs to.
+    /// </summary>
+    /// <param name="country"></param>
+    /// <exception cref="ArgumentNullException"></exception>
+    public void UpdateCountry(Country country)
+    {
+        if (country is null)
+        {
+            throw new ArgumentNullException(nameof(country));
+        }
+
+        Country = country;
+    }
+
     public override bool Equals(object? obj)
     {
         if (obj is not City other)

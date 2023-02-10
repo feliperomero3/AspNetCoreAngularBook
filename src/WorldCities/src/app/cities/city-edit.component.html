@@ -1,4 +1,4 @@
-<h1>Edit - City</h1>
+<h1>{{city ? "Edit" : "Create"}} - City</h1>
 
 <p *ngIf="!city && id"><em>Loading...</em></p>
 
@@ -7,6 +7,14 @@
     <mat-form-field>
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" required>
+    </mat-form-field>
+    <mat-form-field *ngIf="countries">
+      <mat-label>Country</mat-label>
+      <mat-select id="countryId" formControlName="countryId">
+        <mat-option *ngFor="let country of countries" [value]="country.countryId">
+          {{country.name}}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Latitude</mat-label>
@@ -17,7 +25,7 @@
       <input matInput formControlName="longitude" required>
     </mat-form-field>
     <div>
-      <button mat-flat-button color="primary" type="submit">{{id ? "Save" : "Create"}}</button>
+      <button mat-flat-button color="primary" type="submit">{{city ? "Save" : "Create"}}</button>
       <button mat-flat-button color="secondary" (click)="onCancel()">Cancel</button>
     </div>
   </form>

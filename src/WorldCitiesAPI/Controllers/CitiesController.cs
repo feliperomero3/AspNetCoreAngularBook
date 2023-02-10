@@ -33,27 +33,54 @@ public class CitiesController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<City>> GetCity(long id)
+    public async Task<ActionResult<CityModel>> GetCity(long id)
     {
-        var city = await _context.Cities.FindAsync(id);
+        var city = await _context.Cities.AsNoTracking()
+            .Include(city => city.Country)
+            .SingleAsync(city => city.CityId == id);
 
         if (city == null)
         {
             return NotFound();
         }
 
-        return city;
+        var model = new CityModel
+        {
+            CityId = id,
+            Name = city.Name,
+            Latitude = city.Latitude,
+            Longitude = city.Longitude,
+            CountryId = city.Country?.CountryId
+        };
+
+        return model;
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutCity(long id, City city)
+    public async Task<IActionResult> PutCity(long id, CityInputModel cityModel)
     {
-        if (id != city.CityId)
+        var city = await _context.Cities
+            .Include(city => city.Country)
+            .SingleAsync(city => city.CityId == id);
+
+        if (city == null)
         {
-            return BadRequest();
+            return new StatusCodeResult(StatusCodes.Status422UnprocessableEntity);
         }
 
-        _context.Entry(city).State = EntityState.Modified;
+        _context.Entry(city).CurrentValues.SetValues(cityModel);
+
+        if (city.Country?.CountryId != cityModel.CountryId)
+        {
+            var country = await _context.Countries.FindAsync(cityModel.CountryId);
+
+            if (country == null)
+            {
+                return new StatusCodeResult(StatusCodes.Status422UnprocessableEntity);
+            }
+
+            city.UpdateCountry(country);
+        }
 
         try
         {
@@ -75,13 +102,31 @@ public class CitiesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<City>> PostCity(City city)
+    public async Task<ActionResult<City>> PostCity(CityInputModel cityModel)
     {
-        _context.Cities.Add(city);
+        var country = await _context.Countries.FindAsync(cityModel.CountryId);
+
+        if (country == null)
+        {
+            return new StatusCodeResult(StatusCodes.Status422UnprocessableEntity);
+        }
+
+        var newCity = new City(cityModel.Name, cityModel.Latitude, cityModel.Longitude, country);
+
+        _context.Cities.Add(newCity);
 
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetCity", new { id = city.CityId }, city);
+        var model = new CityModel
+        {
+            CityId = newCity.CityId,
+            Name = newCity.Name,
+            Latitude = newCity.Latitude,
+            Longitude = newCity.Longitude,
+            CountryId = newCity.Country!.CountryId
+        };
+
+        return CreatedAtAction(nameof(GetCity), new { id = newCity.CityId }, model);
     }
 
     [HttpDelete("{id}")]

@@ -22,7 +22,7 @@ public class ApiResult<T>
     public int PageSize { get; private set; }
 
     /// <summary>
-    /// Total items count 
+    /// Total items count
     /// </summary>
     public int TotalCount { get; private set; }
 
@@ -115,7 +115,7 @@ public class ApiResult<T>
 
         if (!string.IsNullOrEmpty(sortColumn) && IsValidProperty(sortColumn))
         {
-            sortOrder = !string.IsNullOrEmpty(sortOrder) && sortOrder.ToUpper() == "ASC" ? "ASC" : "DESC";
+            sortOrder = !string.IsNullOrEmpty(sortOrder) && sortOrder.ToUpper() == "DESC" ? "DESC" : "ASC";
 
             source = source.OrderBy(string.Format("{0} {1}", sortColumn, sortOrder));
         }
