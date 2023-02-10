@@ -1,15 +1,16 @@
 <h1>Cities</h1>
 
-<p class="lead">Here's a list of cities.</p>
 
-<p *ngIf="!cities"><em>Loading...</em></p>
-
+<button mat-flat-button color="primary" class="btn-add" *ngIf="cities" [routerLink]="['/city']">
+  Add a new City
+</button>
 <p>
   <mat-form-field [hidden]="!cities">
     <mat-label>Filter</mat-label>
     <input matInput #filter (keyup)="loadData(filter.value)">
   </mat-form-field>
 </p>
+<p *ngIf="!cities"><em>Loading...</em></p>
 <table mat-table [dataSource]="cities" matSort (matSortChange)="loadData()" class="table mat-elevation-z8"
   [matSortActive]="defaultSortColumn" [matSortDirection]="defaultSortOrder" [hidden]="!cities">
   <ng-container matColumnDef="cityId">
