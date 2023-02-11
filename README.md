@@ -49,7 +49,7 @@ _Countries page_
 
 ## License
 
-```md
+```markdown
 MIT License
 
 Copyright (c) 2023 Felipe Romero
