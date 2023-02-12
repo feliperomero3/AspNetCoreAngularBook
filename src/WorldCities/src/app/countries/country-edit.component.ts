@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { map, Observable } from 'rxjs';
 import { environment } from './../../environments/environment';
 import { Country } from './country';
 
@@ -14,9 +15,9 @@ export class CountryEditComponent implements OnInit {
   country!: Country;
   id?: number;
   form = new FormBuilder().group({
-    name: ['', Validators.required],
-    iso2: ['', Validators.required, Validators.pattern(/^[A-Z]{2}$/)],
-    iso3: ['', Validators.required, Validators.pattern(/^[A-Z]{3}$/)]
+    name: ['', Validators.required, this.isDuplicatedField("name")],
+    iso2: ['', Validators.required, Validators.pattern(/^[A-Z]{2}$/), this.isDuplicatedField("iso2")],
+    iso3: ['', Validators.required, Validators.pattern(/^[A-Z]{3}$/), this.isDuplicatedField("iso3")]
   });
 
   constructor(
@@ -29,6 +30,19 @@ export class CountryEditComponent implements OnInit {
     if (id) {
       this.getCountry(+id);
     }
+  }
+
+  isDuplicatedField(fieldName: string): AsyncValidatorFn {
+    const isDuplicatedFieldValidator = (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
+      var params = new HttpParams()
+        .set("filterColumn", fieldName)
+        .set("filterQuery", control.value);
+      return this.http.get<any>(environment.baseUrl + 'api/countries', { params })
+        .pipe(map(result => {
+          return result.data.length > 0 ? { isDuplicatedField: true } : null;
+        }));
+    }
+    return isDuplicatedFieldValidator;
   }
 
   getCountry(id: number): void {
