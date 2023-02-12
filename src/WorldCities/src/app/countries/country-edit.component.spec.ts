@@ -1,11 +1,11 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CityEditComponent } from './city-edit.component';
+import { CountryEditComponent } from './country-edit.component';
 
-describe('CityEditComponent', () => {
-  let component: CityEditComponent;
-  let fixture: ComponentFixture<CityEditComponent>;
+describe('CountryEditComponent', () => {
+  let component: CountryEditComponent;
+  let fixture: ComponentFixture<CountryEditComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -13,12 +13,12 @@ describe('CityEditComponent', () => {
         RouterTestingModule,
         HttpClientTestingModule
       ],
-      declarations: [CityEditComponent]
+      declarations: [CountryEditComponent]
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CityEditComponent);
+    fixture = TestBed.createComponent(CountryEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
