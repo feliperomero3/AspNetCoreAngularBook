@@ -6,7 +6,7 @@
 <p>
   <mat-form-field [hidden]="!cities">
     <mat-label>Filter</mat-label>
-    <input matInput #filter (keyup)="loadData(filter.value)">
+    <input matInput #filter (keyup)="onFilterTextChanged(filter.value)">
   </mat-form-field>
 </p>
 <p *ngIf="!cities"><em>Loading...</em></p>
