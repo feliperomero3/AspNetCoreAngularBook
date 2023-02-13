@@ -39,6 +39,21 @@ public class Country
     /// <param name="iso3">The country code in ISO 3166-1 ALPHA-3 format.</param>
     internal Country(long countryId, string name, string iso2, string iso3)
     {
+        if (string.IsNullOrEmpty(name))
+        {
+            throw new ArgumentException($"'{nameof(name)}' cannot be null or empty.", nameof(name));
+        }
+
+        if (string.IsNullOrEmpty(iso2))
+        {
+            throw new ArgumentException($"'{nameof(iso2)}' cannot be null or empty.", nameof(iso2));
+        }
+
+        if (string.IsNullOrEmpty(iso3))
+        {
+            throw new ArgumentException($"'{nameof(iso3)}' cannot be null or empty.", nameof(iso3));
+        }
+
         CountryId = countryId;
         Name = name;
         Iso2 = iso2;

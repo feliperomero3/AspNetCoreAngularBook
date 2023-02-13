@@ -46,14 +46,16 @@ public class CountriesController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutCountry(long id, Country country)
+    public async Task<IActionResult> PutCountry(long id, CountryModel countryModel)
     {
-        if (id != country.CountryId)
+        var country = _context.Countries.Find(id);
+
+        if (country == null)
         {
-            return BadRequest();
+            return new StatusCodeResult(StatusCodes.Status422UnprocessableEntity);
         }
 
-        _context.Entry(country).State = EntityState.Modified;
+        _context.Entry(country).CurrentValues.SetValues(countryModel);
 
         try
         {
@@ -75,13 +77,23 @@ public class CountriesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Country>> PostCountry(Country country)
+    public async Task<ActionResult<Country>> PostCountry(CountryInputModel country)
     {
-        _context.Countries.Add(country);
+        var newCountry = new Country(country.Name, country.Iso2, country.Iso3);
+
+        _context.Countries.Add(newCountry);
 
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetCountry", new { id = country.CountryId }, country);
+        var countryModel = new CountryModel
+        {
+            CountryId = newCountry.CountryId,
+            Name = newCountry.Name,
+            Iso2 = newCountry.Iso2,
+            Iso3 = newCountry.Iso3
+        };
+
+        return CreatedAtAction(nameof(GetCountry), new { id = countryModel.CountryId }, countryModel);
     }
 
     [HttpDelete("{id}")]

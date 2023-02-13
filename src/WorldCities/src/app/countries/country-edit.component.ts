@@ -16,8 +16,8 @@ export class CountryEditComponent implements OnInit {
   id?: number;
   form = new FormBuilder().group({
     name: ['', Validators.required, this.isDuplicatedField("name")],
-    iso2: ['', Validators.required, Validators.pattern(/^[A-Z]{2}$/), this.isDuplicatedField("iso2")],
-    iso3: ['', Validators.required, Validators.pattern(/^[A-Z]{3}$/), this.isDuplicatedField("iso3")]
+    iso2: ['', [Validators.required, Validators.pattern(/^[A-Z]{2}$/)], this.isDuplicatedField("iso2")],
+    iso3: ['', [Validators.required, Validators.pattern(/^[A-Z]{3}$/)], this.isDuplicatedField("iso3")]
   });
 
   constructor(
@@ -39,7 +39,7 @@ export class CountryEditComponent implements OnInit {
         .set("filterQuery", control.value);
       return this.http.get<any>(environment.baseUrl + 'api/countries', { params })
         .pipe(map(result => {
-          return result.data.length > 0 ? { isDuplicatedField: true } : null;
+          return result.data.length > 0 && !this.country ? { isDuplicatedField: true } : null;
         }));
     }
     return isDuplicatedFieldValidator;
@@ -75,6 +75,7 @@ export class CountryEditComponent implements OnInit {
     country.iso2 = this.form.controls['iso2'].value;
     country.iso3 = this.form.controls['iso3'].value;
     if (this.country) {
+      country.countryId = this.country.countryId
       this.updateCountry(country);
     } else {
       this.createCountry(country);
