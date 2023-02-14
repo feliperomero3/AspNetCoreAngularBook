@@ -53,7 +53,7 @@ export class CountryEditComponent implements OnInit {
           errors.push(`${displayName} is required.`);
           break;
         case 'pattern':
-          errors.push(`${displayName} contains invalid characters.`);
+          errors.push(`${displayName} contains invalid characters and/or length.`);
           break;
         case 'isDuplicatedField':
           errors.push(`${displayName} already exists: please choose another.`);

@@ -13,19 +13,15 @@
       <mat-label>ISO 3166-1 ALPHA-2 Country code (2 letters)</mat-label>
       <input matInput formControlName="iso2" required>
     </mat-form-field>
-    <ng-container [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{name: 'iso2', error: 'required', message: 'ISO 3166-1 ALPHA-2 Country code is required.'}"></ng-container>
-    <ng-container [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{name: 'iso2', error: 'pattern', message: 'ISO 3166-1 ALPHA-2 Country code requires 2 letters.'}"></ng-container>
-    <ng-container [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{name: 'iso2', error: 'isDuplicatedField', message: 'This code already exists: please choose another.'}"></ng-container>
+    <ng-container [ngTemplateOutlet]="errorTemplate2" [ngTemplateOutletContext]="{name: 'iso2', displayName: 'ISO 3166-1 ALPHA-2 Country code'}"></ng-container>
     <mat-form-field>
       <mat-label>ISO 3166-1 ALPHA-3 Country code (3 letters)</mat-label>
       <input matInput formControlName="iso3" required>
     </mat-form-field>
-    <ng-container [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{name: 'iso3', error: 'required', message: 'ISO 3166-1 ALPHA-3 Country code is required.'}"></ng-container>
-    <ng-container [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{name: 'iso3', error: 'pattern', message: 'ISO 3166-1 ALPHA-3 Country code requires 3 letters.'}"></ng-container>
-    <ng-container [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{name: 'iso3', error: 'isDuplicatedField', message: 'This code already exists: please choose another.'}"></ng-container>
+    <ng-container [ngTemplateOutlet]="errorTemplate2" [ngTemplateOutletContext]="{name: 'iso3', displayName: 'ISO 3166-1 ALPHA-3 Country code'}"></ng-container>
     <div>
       <button mat-flat-button color="primary" type="submit" [disabled]="this.form.invalid">
-        {{country ? "Save" : "Create"}}
+        {{this.country ? "Save" : "Create"}}
       </button>
       <button mat-flat-button color="secondary" (click)="onCancel()">Cancel</button>
     </div>
@@ -35,5 +31,13 @@
 <ng-template #errorTemplate let-name="name" let-error="error" let-message="message">
   <mat-error *ngIf="this.form.controls[name].errors?.[error] && (this.form.controls[name].dirty || this.form.controls[name].touched)">
     {{message}}
+  </mat-error>
+</ng-template>
+
+<ng-template #errorTemplate2 let-name="name" let-displayName="displayName">
+  <mat-error *ngIf="this.form.controls[name].dirty || this.form.controls[name].touched">
+    <span *ngFor="let error of getErrors(this.form.get(name)!, displayName)">
+      {{error}}
+    </span>
   </mat-error>
 </ng-template>
