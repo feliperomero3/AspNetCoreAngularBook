@@ -46,7 +46,7 @@ export class CitiesComponent implements OnInit, AfterViewInit {
   }
 
   onFilterTextChanged(filterText: string): void {
-    if (this.filterTextChanged.observed) {
+    if (!this.filterTextChanged.observed) {
       this.filterTextChanged
         .pipe(debounceTime(1000), distinctUntilChanged())
         .subscribe(text => this.loadData(text));
