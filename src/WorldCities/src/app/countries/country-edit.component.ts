@@ -45,6 +45,27 @@ export class CountryEditComponent implements OnInit {
     return isDuplicatedFieldValidator;
   }
 
+  getErrors(control: AbstractControl, displayName: string): string[] {
+    var errors: string[] = [];
+    Object.keys(control.errors || {}).forEach((key) => {
+      switch (key) {
+        case 'required':
+          errors.push(`${displayName} is required.`);
+          break;
+        case 'pattern':
+          errors.push(`${displayName} contains invalid characters.`);
+          break;
+        case 'isDuplicatedField':
+          errors.push(`${displayName} already exists: please choose another.`);
+          break;
+        default:
+          errors.push(`${displayName} is invalid.`);
+          break;
+      }
+    });
+    return errors;
+  }
+
   getCountry(id: number): void {
     this.http.get<Country>(environment.baseUrl + `api/countries/${id}`).subscribe({
       next: country => {

@@ -8,35 +8,21 @@
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" required>
     </mat-form-field>
-    <mat-error *ngIf="this.form.controls['name'].errors?.['required'] && (this.form.controls['name'].dirty || this.form.controls['name'].touched)">
-      Name is required.
-    </mat-error>
+    <ng-container [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{name: 'name', error: 'required', message: 'Name is required.'}"></ng-container>
     <mat-form-field>
       <mat-label>ISO 3166-1 ALPHA-2 Country code (2 letters)</mat-label>
       <input matInput formControlName="iso2" required>
     </mat-form-field>
-    <mat-error *ngIf="this.form.controls['iso2'].errors?.['required'] && (this.form.controls['iso2'].dirty || this.form.controls['iso2'].touched)">
-      ISO 3166-1 ALPHA-2 Country code is required.
-    </mat-error>
-    <mat-error *ngIf="this.form.controls['iso2'].errors?.['pattern'] && (this.form.controls['iso2'].dirty || this.form.controls['iso2'].touched)">
-      ISO 3166-1 ALPHA-2 Country code requires 2 letters.
-    </mat-error>
-    <mat-error *ngIf="this.form.controls['iso2'].errors?.['isDuplicatedField'] && (this.form.controls['iso2'].dirty || this.form.controls['iso2'].touched)">
-      This code already exists: please choose another.
-    </mat-error>
+    <ng-container [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{name: 'iso2', error: 'required', message: 'ISO 3166-1 ALPHA-2 Country code is required.'}"></ng-container>
+    <ng-container [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{name: 'iso2', error: 'pattern', message: 'ISO 3166-1 ALPHA-2 Country code requires 2 letters.'}"></ng-container>
+    <ng-container [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{name: 'iso2', error: 'isDuplicatedField', message: 'This code already exists: please choose another.'}"></ng-container>
     <mat-form-field>
       <mat-label>ISO 3166-1 ALPHA-3 Country code (3 letters)</mat-label>
       <input matInput formControlName="iso3" required>
     </mat-form-field>
-    <mat-error *ngIf="this.form.controls['iso3'].errors?.['required'] && (this.form.controls['iso3'].dirty || this.form.controls['iso3'].touched)">
-      ISO 3166-1 ALPHA-3 Country code is required.
-    </mat-error>
-    <mat-error *ngIf="this.form.controls['iso3'].errors?.['pattern'] && (this.form.controls['iso3'].dirty || this.form.controls['iso3'].touched)">
-      ISO 3166-1 ALPHA-3 Country code requires 3 letters.
-    </mat-error>
-    <mat-error *ngIf="this.form.controls['iso3'].errors?.['isDuplicatedField'] && (this.form.controls['iso3'].dirty || this.form.controls['iso3'].touched)">
-      This code already exists: please choose another.
-    </mat-error>
+    <ng-container [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{name: 'iso3', error: 'required', message: 'ISO 3166-1 ALPHA-3 Country code is required.'}"></ng-container>
+    <ng-container [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{name: 'iso3', error: 'pattern', message: 'ISO 3166-1 ALPHA-3 Country code requires 3 letters.'}"></ng-container>
+    <ng-container [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{name: 'iso3', error: 'isDuplicatedField', message: 'This code already exists: please choose another.'}"></ng-container>
     <div>
       <button mat-flat-button color="primary" type="submit" [disabled]="this.form.invalid">
         {{country ? "Save" : "Create"}}
@@ -45,3 +31,9 @@
     </div>
   </form>
 </div>
+
+<ng-template #errorTemplate let-name="name" let-error="error" let-message="message">
+  <mat-error *ngIf="this.form.controls[name].errors?.[error] && (this.form.controls[name].dirty || this.form.controls[name].touched)">
+    {{message}}
+  </mat-error>
+</ng-template>
