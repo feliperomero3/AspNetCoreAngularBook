@@ -24,8 +24,8 @@ export class CityEditComponent extends BaseFormComponent implements OnInit {
     super();
     this.form = new FormGroup({
       name: new FormControl('', Validators.required),
-      latitude: new FormControl('', Validators.required),
-      longitude: new FormControl('', Validators.required),
+      latitude: new FormControl('', [Validators.required, Validators.pattern(/^[-]?[0-9]+(\.[0-9]{1,4})?$/)]),
+      longitude: new FormControl('', [Validators.required, Validators.pattern(/^[-]?[0-9]+(\.[0-9]{1,4})?$/)]),
       countryId: new FormControl('', Validators.required)
     });
   }
