@@ -24,4 +24,9 @@ public class CountryModel
     /// The country code in ISO 3166-1 ALPHA-3 format.
     /// </summary>
     public string Iso3 { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The total number of cities in the country.
+    /// </summary>
+    public int CitiesCount { get; set; }
 }

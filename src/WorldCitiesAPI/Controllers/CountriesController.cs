@@ -18,7 +18,7 @@ public class CountriesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ApiResult<Country>>> GetCountries(
+    public async Task<ActionResult<ApiResult<CountryModel>>> GetCountries(
         int pageIndex = 0,
         int pageSize = 10,
         string? sortColumn = null,
@@ -26,8 +26,18 @@ public class CountriesController : ControllerBase
         string? filterColumn = null,
         string? filterQuery = null)
     {
-        var result = await ApiResult<Country>.CreateAsync(
-            _context.Countries.AsNoTracking(), pageIndex, pageSize, sortColumn, sortOrder, filterColumn, filterQuery);
+        var countries = _context.Countries.AsNoTracking()
+            .Select(c => new CountryModel
+            {
+                CountryId = c.CountryId,
+                Name = c.Name,
+                Iso2 = c.Iso2,
+                Iso3 = c.Iso3,
+                CitiesCount = c.Cities.Count()
+            });
+
+        var result = await ApiResult<CountryModel>.CreateAsync(
+            countries, pageIndex, pageSize, sortColumn, sortOrder, filterColumn, filterQuery);
 
         return result;
     }
