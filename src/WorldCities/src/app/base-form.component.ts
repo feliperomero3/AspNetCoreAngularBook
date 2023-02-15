@@ -15,7 +15,7 @@ export abstract class BaseFormComponent {
           errors.push(`${displayName} is required.`);
           break;
         case 'pattern':
-          errors.push(`${displayName} contains invalid characters and/or length.`);
+          errors.push(`${displayName} contains invalid characters or invalid length.`);
           break;
         case 'isDuplicatedField':
           errors.push(`${displayName} already exists: please choose another.`);

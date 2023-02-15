@@ -5,27 +5,30 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { environment } from './../../environments/environment';
 import { City } from './city';
 import { Country } from '../countries/country';
+import { BaseFormComponent } from '../base-form.component';
 
 @Component({
   selector: 'app-city-edit',
   templateUrl: './city-edit.component.html',
   styleUrls: ['./city-edit.component.scss']
 })
-export class CityEditComponent implements OnInit {
+export class CityEditComponent extends BaseFormComponent implements OnInit {
   city!: City;
   id?: number;
   countries?: Country[];
-  form = new FormGroup({
-    name: new FormControl('', Validators.required),
-    latitude: new FormControl('', Validators.required),
-    longitude: new FormControl('', Validators.required),
-    countryId: new FormControl('', Validators.required)
-  });
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private http: HttpClient) { }
+    private http: HttpClient) {
+    super();
+    this.form = new FormGroup({
+      name: new FormControl('', Validators.required),
+      latitude: new FormControl('', Validators.required),
+      longitude: new FormControl('', Validators.required),
+      countryId: new FormControl('', Validators.required)
+    });
+  }
 
   ngOnInit(): void {
     this.getCountries();

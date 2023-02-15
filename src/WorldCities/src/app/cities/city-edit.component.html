@@ -8,9 +8,7 @@
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" required>
     </mat-form-field>
-    <mat-error *ngIf="this.form.controls['name'].errors?.['required'] && (this.form.controls['name'].dirty || this.form.controls['name'].touched)">
-      Name is required.
-    </mat-error>
+    <ng-container [ngTemplateOutlet]="errorTemplate2" [ngTemplateOutletContext]="{name: 'name', displayName: 'Name'}"></ng-container>
     <mat-form-field *ngIf="countries">
       <mat-label>Country</mat-label>
       <mat-select id="countryId" formControlName="countryId">
@@ -19,23 +17,17 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-error *ngIf="this.form.controls['countryId'].errors?.['required'] && (this.form.controls['countryId'].dirty || this.form.controls['countryId'].touched)">
-      Country is required.
-    </mat-error>
+    <ng-container [ngTemplateOutlet]="errorTemplate2" [ngTemplateOutletContext]="{name: 'countryId', displayName: 'Country'}"></ng-container>
     <mat-form-field>
       <mat-label>Latitude</mat-label>
       <input matInput formControlName="latitude" required>
     </mat-form-field>
-    <mat-error *ngIf="this.form.controls['latitude'].errors?.['required'] && (this.form.controls['latitude'].dirty || this.form.controls['latitude'].touched)">
-      Latitude is required.
-    </mat-error>
+    <ng-container [ngTemplateOutlet]="errorTemplate2" [ngTemplateOutletContext]="{name: 'latitude', displayName: 'Latitude'}"></ng-container>
     <mat-form-field>
       <mat-label>Longitude</mat-label>
       <input matInput formControlName="longitude" required>
     </mat-form-field>
-    <mat-error *ngIf="this.form.controls['longitude'].errors?.['required'] && (this.form.controls['longitude'].dirty || this.form.controls['longitude'].touched)">
-      Longitude is required.
-    </mat-error>
+    <ng-container [ngTemplateOutlet]="errorTemplate2" [ngTemplateOutletContext]="{name: 'longitude', displayName: 'Longitude'}"></ng-container>
     <div>
       <button mat-flat-button color="primary" type="submit" [disabled]="this.form.invalid">
         {{city ? "Save" : "Create"}}
@@ -44,3 +36,11 @@
     </div>
   </form>
 </div>
+
+<ng-template #errorTemplate2 let-name="name" let-displayName="displayName">
+  <mat-error *ngIf="this.form.controls[name].dirty || this.form.controls[name].touched">
+    <span *ngFor="let error of getErrors(this.form.get(name)!, displayName)">
+      {{error}}
+    </span>
+  </mat-error>
+</ng-template>
