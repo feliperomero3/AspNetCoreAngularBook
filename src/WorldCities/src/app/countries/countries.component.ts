@@ -13,7 +13,7 @@ import { Country } from './country';
   styleUrls: ['./countries.component.scss']
 })
 export class CountriesComponent implements OnInit, AfterViewInit {
-  displayedColumns = ['countryId', 'name', 'iso2', 'iso3'];
+  displayedColumns = ['countryId', 'name', 'iso2', 'iso3', 'citiesCount'];
   countries!: MatTableDataSource<Country>;
   pageEvent: PageEvent;
   defaultPageIndex = 0;
