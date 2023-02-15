@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
+import { BaseFormComponent } from '../base-form.component';
 import { environment } from './../../environments/environment';
 import { Country } from './country';
 
@@ -11,19 +12,21 @@ import { Country } from './country';
   templateUrl: './country-edit.component.html',
   styleUrls: ['./country-edit.component.scss']
 })
-export class CountryEditComponent implements OnInit {
+export class CountryEditComponent extends BaseFormComponent implements OnInit {
   country!: Country;
   id?: number;
-  form = new FormBuilder().group({
-    name: ['', Validators.required, this.isDuplicatedField("name")],
-    iso2: ['', [Validators.required, Validators.pattern(/^[A-Z]{2}$/)], this.isDuplicatedField("iso2")],
-    iso3: ['', [Validators.required, Validators.pattern(/^[A-Z]{3}$/)], this.isDuplicatedField("iso3")]
-  });
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private http: HttpClient) { }
+    private http: HttpClient) {
+    super();
+    this.form = new FormBuilder().group({
+      name: ['', Validators.required, this.isDuplicatedField("name")],
+      iso2: ['', [Validators.required, Validators.pattern(/^[A-Z]{2}$/)], this.isDuplicatedField("iso2")],
+      iso3: ['', [Validators.required, Validators.pattern(/^[A-Z]{3}$/)], this.isDuplicatedField("iso3")]
+    });
+  }
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -43,27 +46,6 @@ export class CountryEditComponent implements OnInit {
         }));
     }
     return isDuplicatedFieldValidator;
-  }
-
-  getErrors(control: AbstractControl, displayName: string): string[] {
-    var errors: string[] = [];
-    Object.keys(control.errors || {}).forEach((key) => {
-      switch (key) {
-        case 'required':
-          errors.push(`${displayName} is required.`);
-          break;
-        case 'pattern':
-          errors.push(`${displayName} contains invalid characters and/or length.`);
-          break;
-        case 'isDuplicatedField':
-          errors.push(`${displayName} already exists: please choose another.`);
-          break;
-        default:
-          errors.push(`${displayName} is invalid.`);
-          break;
-      }
-    });
-    return errors;
   }
 
   getCountry(id: number): void {
