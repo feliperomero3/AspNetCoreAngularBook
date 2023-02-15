@@ -41,10 +41,10 @@ _Health check api_
 ![Home page](./assets/05-worldcities-home.png)  
 _Home page_
 
-![Cities page](./assets/08-worldcities-cities-mattable-filter.png)  
+![Cities page](./assets/11-worldcities-cities-mattable-filter-add-button.png)  
 _Cities page_
 
-![Countries page](./assets/09-worldcities-countries-mattable-filter.png)  
+![Countries page](./assets/10-worldcities-countries-mattable-cities-count.png)  
 _Countries page_
 
 ## License
