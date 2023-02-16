@@ -41,7 +41,7 @@ _Health check api_
 ![Home page](./assets/05-worldcities-home.png)  
 _Home page_
 
-![Cities page](./assets/11-worldcities-cities-mattable-filter-add-button.png)  
+![Cities page](./assets/12-worldcities-cities-mattable-filter-country-name.png)  
 _Cities page_
 
 ![Countries page](./assets/10-worldcities-countries-mattable-cities-count.png)  

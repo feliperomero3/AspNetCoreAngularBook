@@ -14,7 +14,7 @@ import { City } from './city';
   styleUrls: ['./cities.component.scss']
 })
 export class CitiesComponent implements OnInit, AfterViewInit {
-  displayedColumns = ['cityId', 'name', 'latitude', 'longitude'];
+  displayedColumns = ['cityId', 'name', 'latitude', 'longitude', 'countryName'];
   cities!: MatTableDataSource<City>;
   pageEvent: PageEvent;
   defaultPageIndex = 0;
