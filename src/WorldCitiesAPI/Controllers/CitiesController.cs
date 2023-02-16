@@ -18,7 +18,7 @@ public class CitiesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ApiResult<City>>> GetCities(
+    public async Task<ActionResult<ApiResult<CityModel>>> GetCities(
         int pageIndex = 0,
         int pageSize = 10,
         string? sortColumn = null,
@@ -26,8 +26,19 @@ public class CitiesController : ControllerBase
         string? filterColumn = null,
         string? filterQuery = null)
     {
-        var result = await ApiResult<City>.CreateAsync(
-            _context.Cities.AsNoTracking(), pageIndex, pageSize, sortColumn, sortOrder, filterColumn, filterQuery);
+        var cities = _context.Cities.AsNoTracking()
+            .Select(c => new CityModel
+            {
+                CityId = c.CityId,
+                Name = c.Name,
+                Latitude = c.Latitude,
+                Longitude = c.Longitude,
+                CountryId = c.Country!.CountryId,
+                CountryName = c.Country.Name
+            });
+
+        var result = await ApiResult<CityModel>.CreateAsync(
+            cities, pageIndex, pageSize, sortColumn, sortOrder, filterColumn, filterQuery);
 
         return result;
     }
@@ -50,7 +61,7 @@ public class CitiesController : ControllerBase
             Name = city.Name,
             Latitude = city.Latitude,
             Longitude = city.Longitude,
-            CountryId = city.Country?.CountryId
+            CountryId = city.Country!.CountryId
         };
 
         return model;

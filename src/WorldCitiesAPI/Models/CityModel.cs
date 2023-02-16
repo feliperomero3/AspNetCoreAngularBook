@@ -28,5 +28,10 @@ public class CityModel
     /// <summary>
     /// The country unique Id the city belongs to.
     /// </summary>
-    public long? CountryId { get; set; }
+    public long CountryId { get; set; }
+
+    /// <summary>
+    /// The country unique Id the city belongs to.
+    /// </summary>
+    public string CountryName { get; set; } = string.Empty;
 }
