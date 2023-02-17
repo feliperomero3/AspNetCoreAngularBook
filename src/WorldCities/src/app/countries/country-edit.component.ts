@@ -1,11 +1,11 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { BaseFormComponent } from '../base-form.component';
-import { environment } from './../../environments/environment';
 import { Country } from './country';
+import { CountryService } from './country.service';
 
 @Component({
   selector: 'app-country-edit',
@@ -19,7 +19,7 @@ export class CountryEditComponent extends BaseFormComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private http: HttpClient) {
+    private countryService: CountryService) {
     super();
     this.form = new FormBuilder().group({
       name: ['', Validators.required, this.isDuplicatedField("name")],
@@ -40,7 +40,7 @@ export class CountryEditComponent extends BaseFormComponent implements OnInit {
       var params = new HttpParams()
         .set("filterColumn", fieldName)
         .set("filterQuery", control.value);
-      return this.http.get<any>(environment.baseUrl + 'api/countries', { params })
+      return this.countryService.isDuplicatedField(fieldName, control.value)
         .pipe(map(result => {
           return result.data.length > 0 && !this.country ? { isDuplicatedField: true } : null;
         }));
@@ -49,7 +49,7 @@ export class CountryEditComponent extends BaseFormComponent implements OnInit {
   }
 
   getCountry(id: number): void {
-    this.http.get<Country>(environment.baseUrl + `api/countries/${id}`).subscribe({
+    this.countryService.get(id).subscribe({
       next: country => {
         this.country = country;
         this.form.patchValue(this.country);
@@ -59,14 +59,14 @@ export class CountryEditComponent extends BaseFormComponent implements OnInit {
   }
 
   createCountry(country: Country): void {
-    this.http.post<Country>(environment.baseUrl + `api/countries`, country).subscribe({
+    this.countryService.post(country).subscribe({
       next: () => console.log(`Country ${country.name} has been created.`),
       error: err => console.error(err)
     })
   }
 
   updateCountry(country: Country): void {
-    this.http.put<Country>(environment.baseUrl + `api/countries/${country.countryId}`, country).subscribe({
+    this.countryService.put(country).subscribe({
       next: () => console.log(`Country ${country.name} has been updated.`),
       error: err => console.error(err)
     })

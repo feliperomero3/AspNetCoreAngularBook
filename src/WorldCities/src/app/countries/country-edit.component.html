@@ -8,7 +8,7 @@
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" required>
     </mat-form-field>
-    <ng-container [ngTemplateOutlet]="errorTemplate" [ngTemplateOutletContext]="{name: 'name', error: 'required', message: 'Name is required.'}"></ng-container>
+    <ng-container [ngTemplateOutlet]="errorTemplate2" [ngTemplateOutletContext]="{name: 'name', displayName: 'Name'}"></ng-container>
     <mat-form-field>
       <mat-label>ISO 3166-1 ALPHA-2 Country code (2 letters)</mat-label>
       <input matInput formControlName="iso2" required>
