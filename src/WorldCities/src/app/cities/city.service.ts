@@ -12,7 +12,7 @@ export class CityService extends BaseService<City> {
     super(http);
   }
 
-  getData(pageIndex: number, pageSize: number, sortColumn: string, sortOrder: string, filterColumn: string | null, filterQuery: string | null): Observable<ApiResult<City>> {
+  getData(pageIndex: number, pageSize: number, sortColumn: string, sortOrder: string, filterColumn: string | null, filterQuery: string | null | undefined): Observable<ApiResult<City>> {
     var url = this.getUrl("api/cities");
     var params = new HttpParams()
       .set("pageIndex", pageIndex.toString())

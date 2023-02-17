@@ -5,8 +5,8 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { environment } from './../../environments/environment';
 import { City } from './city';
+import { CityService } from './city.service';
 
 @Component({
   selector: 'app-cities',
@@ -29,7 +29,7 @@ export class CitiesComponent implements OnInit, AfterViewInit {
 
   filterTextChanged: Subject<string> = new Subject<string>();
 
-  constructor(private http: HttpClient) {
+  constructor(private cityService: CityService, private http: HttpClient) {
     this.pageEvent = new PageEvent();
     this.pageEvent.pageIndex = this.defaultPageIndex;
     this.pageEvent.pageSize = this.defaultPageSize;
@@ -60,17 +60,13 @@ export class CitiesComponent implements OnInit, AfterViewInit {
   }
 
   getCities(pageEvent: PageEvent): void {
-    let params = new HttpParams()
-      .set("pageIndex", pageEvent.pageIndex.toString())
-      .set("pageSize", pageEvent.pageSize.toString())
-      .set("sortColumn", this.sort ? this.sort.active : this.defaultSortColumn)
-      .set("sortOrder", this.sort ? this.sort.direction : this.defaultSortOrder);
-    if (this.filterQuery) {
-      params = params
-        .set("filterColumn", this.defaultFilterColumn)
-        .set("filterQuery", this.filterQuery);
-    }
-    this.http.get<any>(environment.baseUrl + 'api/cities', { params })
+    this.cityService.getData(
+      pageEvent.pageIndex,
+      pageEvent.pageSize,
+      (this.sort ? this.sort.active : this.defaultSortColumn),
+      (this.sort ? this.sort.direction : this.defaultSortOrder),
+      this.defaultFilterColumn,
+      this.filterQuery)
       .subscribe({
         next: result => {
           if (this.paginator) {

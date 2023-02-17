@@ -6,6 +6,7 @@ import { environment } from './../../environments/environment';
 import { City } from './city';
 import { Country } from '../countries/country';
 import { BaseFormComponent } from '../base-form.component';
+import { CityService } from './city.service';
 
 @Component({
   selector: 'app-city-edit',
@@ -20,7 +21,8 @@ export class CityEditComponent extends BaseFormComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private http: HttpClient) {
+    private http: HttpClient,
+    private cityService: CityService) {
     super();
     this.form = new FormGroup({
       name: new FormControl('', Validators.required),
@@ -52,7 +54,7 @@ export class CityEditComponent extends BaseFormComponent implements OnInit {
   }
 
   getCity(id: number): void {
-    this.http.get<City>(environment.baseUrl + `api/cities/${id}`).subscribe({
+    this.cityService.get(id).subscribe({
       next: city => {
         this.city = city;
         this.form.patchValue(this.city);
@@ -62,7 +64,7 @@ export class CityEditComponent extends BaseFormComponent implements OnInit {
   }
 
   createCity(city: City): void {
-    this.http.post<City>(environment.baseUrl + `api/cities`, city).subscribe({
+    this.cityService.post(city).subscribe({
       next: () => {
         console.log(`City ${city.name} has been created.`)
       },
@@ -71,7 +73,7 @@ export class CityEditComponent extends BaseFormComponent implements OnInit {
   }
 
   updateCity(city: City): void {
-    this.http.put<City>(environment.baseUrl + `api/cities/${city.cityId}`, city).subscribe({
+    this.cityService.put(city).subscribe({
       next: () => {
         console.log(`City ${city.name} has been updated.`)
       },
