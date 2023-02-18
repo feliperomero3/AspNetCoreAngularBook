@@ -3,44 +3,52 @@ using Serilog;
 using WorldCitiesAPI.Configurations;
 using WorldCitiesAPI.Data;
 
-Log.Logger = SerilogConfiguration
-    .CreateConfiguration()
-    .CreateLogger();
+namespace WorldCitiesAPI;
 
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+public class Program
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-    options.EnableSensitiveDataLogging();
-});
+    private static void Main(string[] args)
+    {
+        Log.Logger = SerilogConfiguration
+            .CreateConfiguration()
+            .CreateLogger();
 
-builder.Services.AddScoped<ApplicationDbContextInitializer>();
+        var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.UseSerilog();
+        builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        {
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            options.EnableSensitiveDataLogging();
+        });
 
-app.UseSerilogRequestLogging();
+        builder.Services.AddScoped<ApplicationDbContextInitializer>();
 
-using (var scope = app.Services.CreateScope())
-{
-    scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>().Initialize();
+        builder.Host.UseSerilog();
+
+        var app = builder.Build();
+
+        app.UseSerilogRequestLogging();
+
+        using (var scope = app.Services.CreateScope())
+        {
+            scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>().Initialize();
+        }
+
+        app.UseSwagger();
+        app.UseSwaggerUI();
+
+        app.UseHttpsRedirection();
+
+        app.UseAuthorization();
+
+        app.MapControllers();
+
+        app.Run();
+
+        Log.CloseAndFlush();
+    }
 }
-
-app.UseSwagger();
-app.UseSwaggerUI();
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
-
-Log.CloseAndFlush();
