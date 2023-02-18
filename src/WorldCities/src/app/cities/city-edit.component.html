@@ -64,3 +64,21 @@
     </div>
   </div>
 </div>
+
+<!-- Form activity log panel -->
+<div class="info">
+  <div class="info-header">Form Activity Log</div>
+  <div class="info-body">
+    <div class="info-value">
+      <span *ngIf="activityLog" [innerHTML]="activityLog"></span>
+    </div>
+  </div>
+</div>
+
+<!--
+  It’s worth noting that we didn't use the double curly braces of interpolation, we went
+  straight for the [innerHTML] directive instead. The reason for that is very simple.
+  The interpolation strips the HTML tags from the source string; hence, we would've lost the
+  <br /> tag that we used in the log() function to separate all log lines with a line feed. If
+  not for that, we would have used the {{ activityLog }} syntax instead.
+-->

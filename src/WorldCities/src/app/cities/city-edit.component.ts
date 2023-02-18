@@ -18,6 +18,9 @@ export class CityEditComponent extends BaseFormComponent implements OnInit {
   id?: number;
   countries?: Country[];
 
+  // Activity Log (for debugging purposes)
+  activityLog = '';
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -38,6 +41,25 @@ export class CityEditComponent extends BaseFormComponent implements OnInit {
     if (id) {
       this.getCity(+id);
     }
+    this.reactToFormChanges();
+  }
+
+  // React to form changes (for debugging purposes)
+  reactToFormChanges(): void {
+    this.form.valueChanges.subscribe({
+      next: () => {
+        if (!this.form.dirty) {
+          this.log("Form model has been loaded.");
+        } else {
+          this.log("Form was updated by the user.");
+        }
+      },
+      error: err => console.error(err)
+    });
+  }
+
+  log(message: string): void {
+    this.activityLog += "[" + new Date().toLocaleString() + "] " + message + "<br />";
   }
 
   getCountries(): void {
@@ -66,19 +88,19 @@ export class CityEditComponent extends BaseFormComponent implements OnInit {
   createCity(city: City): void {
     this.cityService.post(city).subscribe({
       next: () => {
-        console.log(`City ${city.name} has been created.`)
+        console.log(`City ${city.name} has been created.`);
       },
       error: err => console.error(err)
-    })
+    });
   }
 
   updateCity(city: City): void {
     this.cityService.put(city).subscribe({
       next: () => {
-        console.log(`City ${city.name} has been updated.`)
+        console.log(`City ${city.name} has been updated.`);
       },
       error: err => console.error(err)
-    })
+    });
   }
 
   onSubmit(): void {
