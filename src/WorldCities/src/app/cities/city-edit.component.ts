@@ -42,6 +42,7 @@ export class CityEditComponent extends BaseFormComponent implements OnInit {
       this.getCity(+id);
     }
     this.reactToFormChanges();
+    this.reactToFormNameControlChanges();
   }
 
   // React to form changes (for debugging purposes)
@@ -56,6 +57,19 @@ export class CityEditComponent extends BaseFormComponent implements OnInit {
       },
       error: err => console.error(err)
     });
+  }
+
+  // React to changes in the form.name control
+  reactToFormNameControlChanges(): void {
+    this.form.get("name")!.valueChanges
+      .subscribe(() => {
+        if (!this.form.dirty) {
+          this.log("Name has been loaded with initial values.");
+        }
+        else {
+          this.log("Name was updated by the user.");
+        }
+      });
   }
 
   log(message: string): void {
