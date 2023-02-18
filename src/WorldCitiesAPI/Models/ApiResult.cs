@@ -135,7 +135,7 @@ public class ApiResult<T>
     {
         var property = typeof(T).GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
 
-        if (property == null)
+        if (property == null && throwExceptionIfNotFound)
         {
             throw new NotSupportedException($"Property '{propertyName}' does not exist.");
         }

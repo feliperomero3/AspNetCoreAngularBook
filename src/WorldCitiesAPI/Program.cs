@@ -1,14 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using WorldCitiesAPI.Configurations;
 using WorldCitiesAPI.Data;
 
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Debug()
-    .MinimumLevel.Override("Microsoft.AspNetCore.Mvc", Serilog.Events.LogEventLevel.Warning)
-    .MinimumLevel.Override("Microsoft.AspNetCore", Serilog.Events.LogEventLevel.Information)
-    .MinimumLevel.Override("Microsoft.EntityFrameworkCore", Serilog.Events.LogEventLevel.Information)
-    .WriteTo.Debug(outputTemplate: "{SourceContext} [{Level}] {Message:lj}{NewLine}{Exception}")
-    .WriteTo.Console(outputTemplate: "{SourceContext} [{Level}] {Message:lj}{NewLine}{Exception}")
+Log.Logger = SerilogConfiguration
+    .CreateConfiguration()
     .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
