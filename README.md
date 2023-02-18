@@ -18,7 +18,7 @@ Based on the Web Applications built in the Book 'ASP.NET Core 6 and Angular Fift
 1. Configure multiple startup projects setting and select Start for each project's action.
 1. Build the solution.
 1. From Visual Studio: Press F5 to launch both projects in debug mode.
-1. Or from VS Code: Execute `npm run start` and then `npm run backend` to launch both projects.
+1. Or from VS Code: Execute both `npm run start` and `npm run backend` to launch both projects.
 
 ## Screen captures
 
