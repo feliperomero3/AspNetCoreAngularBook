@@ -1,67 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { Component, Directive, Input } from '@angular/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatTableDataSource } from '@angular/material/table';
+import { AngularMaterialModule } from '../angular-material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CountriesComponent } from './countries.component';
 import { Country } from './country';
 
-@Directive({
-  selector: '[matRowDef]'
-})
-class StubMatRowDefDirective {
-  @Input() matRowDefColumns: string[] = [];
-}
-@Directive({
-  selector: '[matHeaderRowDef]'
-})
-class StubMatHeaderRowDefDirective {
-  @Input() matHeaderRowDef: string = '';
-}
-@Directive({
-  selector: '[dataSource]'
-})
-class StubDataSourceDirective {
-  @Input() dataSource: string = '';
-}
-@Component({
-  selector: 'mat-paginator'
-})
-class StubMatPaginatorComponent {
-  @Input() pageSize?: number;
-  @Input() pageSizeOptions?: number[];
-}
-@Component({
-  selector: 'mat-form-field'
-})
-class StubMatFormFieldComponent { }
-@Component({
-  selector: 'mat-form-label'
-})
-class StubMatLabelComponent { }
-
 describe('CountriesComponent', () => {
   let component: CountriesComponent;
   let fixture: ComponentFixture<CountriesComponent>;
-  let httpTestingController: HttpTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        BrowserAnimationsModule,
+        AngularMaterialModule
       ],
       declarations: [
-        CountriesComponent,
-        StubMatRowDefDirective,
-        StubMatHeaderRowDefDirective,
-        StubDataSourceDirective,
-        StubMatPaginatorComponent,
-        StubMatFormFieldComponent,
-        StubMatLabelComponent
+        CountriesComponent
       ]
     }).compileComponents();
-
-    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   beforeEach(() => {
