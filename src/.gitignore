@@ -348,3 +348,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Launch settings file automatically added to Test Projects when using Sdk="Microsoft.NET.Sdk.Web"
+*.Tests/Properties/launchSettings.json
