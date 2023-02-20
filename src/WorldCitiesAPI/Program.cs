@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using WorldCitiesAPI.Configurations;
 using WorldCitiesAPI.Data;
+using WorldCitiesAPI.Entities;
 
 namespace WorldCitiesAPI;
 
@@ -26,6 +27,11 @@ public class Program
         });
 
         builder.Services.AddScoped<ApplicationDbContextInitializer>();
+
+        builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+        {
+            options.SignIn.RequireConfirmedAccount = true;
+        }).AddEntityFrameworkStores<ApplicationDbContext>();
 
         builder.Host.UseSerilog();
 
