@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WorldCitiesAPI.Entities;
 
@@ -6,7 +7,7 @@ namespace WorldCitiesAPI.Data;
 /// <summary>
 /// Represents a session with the database and can be used to query and save instances of your entities.
 /// </summary>
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext
 {
     public ApplicationDbContext(DbContextOptions options) : base(options)
     {
