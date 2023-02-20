@@ -11,7 +11,7 @@ public class CitiesControllerTests : IClassFixture<WebApplicationFactory<Program
     }
 
     [Fact]
-    public async Task Get_cityAsync()
+    public async Task Get_cities()
     {
         // Arrange
         var client = _factory.CreateClient();
