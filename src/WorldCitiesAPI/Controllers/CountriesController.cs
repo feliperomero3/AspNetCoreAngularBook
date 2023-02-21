@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorldCitiesAPI.Data;
@@ -6,6 +7,7 @@ using WorldCitiesAPI.Models;
 
 namespace WorldCitiesAPI.Controllers;
 
+[Authorize(Policy = "UserPolicy")]
 [Route("api/countries")]
 [ApiController]
 public class CountriesController : ControllerBase
@@ -106,6 +108,7 @@ public class CountriesController : ControllerBase
         return CreatedAtAction(nameof(GetCountry), new { id = countryModel.CountryId }, countryModel);
     }
 
+    [Authorize(Policy = "AdministratorPolicy")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteCountry(long id)
     {

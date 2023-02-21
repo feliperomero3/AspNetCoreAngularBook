@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WorldCitiesAPI.Data;
@@ -7,6 +8,7 @@ using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace WorldCitiesAPI.Controllers;
 
+[AllowAnonymous]
 [Route("api/[controller]")]
 [ApiController]
 public class AccountController : ControllerBase

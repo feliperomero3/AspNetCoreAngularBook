@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorldCitiesAPI.Data;
@@ -6,6 +7,7 @@ using WorldCitiesAPI.Models;
 
 namespace WorldCitiesAPI.Controllers;
 
+[Authorize(Policy = "UserPolicy")]
 [Route("api/cities")]
 [ApiController]
 public class CitiesController : ControllerBase
@@ -140,6 +142,7 @@ public class CitiesController : ControllerBase
         return CreatedAtAction(nameof(GetCity), new { id = newCity.CityId }, model);
     }
 
+    [Authorize(Policy = "AdministratorPolicy")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteCity(long id)
     {

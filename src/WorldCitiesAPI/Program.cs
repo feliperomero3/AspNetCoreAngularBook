@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using WorldCitiesAPI.Configurations;
@@ -32,6 +33,16 @@ public class Program
         {
             options.SignIn.RequireConfirmedAccount = true;
         }).AddEntityFrameworkStores<ApplicationDbContext>();
+
+        builder.Services.AddAuthorization(options =>
+        {
+            options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+
+            options.AddPolicy("UserPolicy", policyBuilder => policyBuilder.RequireRole("User"));
+            options.AddPolicy("AdministratorPolicy", policyBuilder => policyBuilder.RequireRole("Administrator"));
+        });
 
         builder.Host.UseSerilog();
 
