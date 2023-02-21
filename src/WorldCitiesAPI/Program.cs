@@ -32,6 +32,9 @@ public class Program
         builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
         {
             options.SignIn.RequireConfirmedAccount = true;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequireDigit = false;
         }).AddEntityFrameworkStores<ApplicationDbContext>();
 
         builder.Services.AddAuthorization(options =>
