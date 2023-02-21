@@ -7,7 +7,7 @@ namespace WorldCitiesAPI.Data;
 /// <summary>
 /// Represents a session with the database and can be used to query and save instances of your entities.
 /// </summary>
-public class ApplicationDbContext : IdentityDbContext
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
 {
     public ApplicationDbContext(DbContextOptions options) : base(options)
     {
