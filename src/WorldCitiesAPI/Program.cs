@@ -50,7 +50,7 @@ public class Program
                 .RequireAuthenticatedUser()
                 .Build();
 
-            options.AddPolicy("UserPolicy", policyBuilder => policyBuilder.RequireRole("User"));
+            options.AddPolicy("UserPolicy", policyBuilder => policyBuilder.RequireRole("Administrator", "User"));
             options.AddPolicy("AdministratorPolicy", policyBuilder => policyBuilder.RequireRole("Administrator"));
         });
 
