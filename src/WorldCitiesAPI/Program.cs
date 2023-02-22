@@ -37,6 +37,13 @@ public class Program
             options.Password.RequireDigit = false;
         }).AddEntityFrameworkStores<ApplicationDbContext>();
 
+        builder.Services.ConfigureApplicationCookie(options =>
+        {
+            options.LoginPath = "/api/account/login";
+            options.AccessDeniedPath = "/api/account/denied";
+            options.EventsType = typeof(CustomCookieAuthenticationEvents);
+        }).AddScoped<CustomCookieAuthenticationEvents>();
+
         builder.Services.AddAuthorization(options =>
         {
             options.FallbackPolicy = new AuthorizationPolicyBuilder()
