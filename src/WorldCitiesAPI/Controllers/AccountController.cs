@@ -9,7 +9,7 @@ using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 namespace WorldCitiesAPI.Controllers;
 
 [AllowAnonymous]
-[Route("api/[controller]")]
+[Route("api/account")]
 [ApiController]
 public class AccountController : ControllerBase
 {
@@ -34,7 +34,7 @@ public class AccountController : ControllerBase
         });
     }
 
-    [HttpPost]
+    [HttpPost("login")]
     public async Task<ActionResult<LoginResult>> LoginAsync(LoginRequest loginRequest)
     {
         var user = await _signInManager.UserManager.FindByNameAsync(loginRequest.Email);
@@ -56,13 +56,15 @@ public class AccountController : ControllerBase
         return Error();
     }
 
-    [HttpPost]
-    public async Task LogoutAsync()
+    [HttpPost("logout")]
+    public async Task<ActionResult> LogoutAsync()
     {
         var user = _signInManager.UserManager.GetUserAsync(User);
 
         await _signInManager.SignOutAsync();
 
         _logger.LogInformation("User {@User} logged out.", user);
+
+        return Ok();
     }
 }
