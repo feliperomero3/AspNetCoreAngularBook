@@ -61,6 +61,11 @@ public class AccountController : ControllerBase
     {
         var user = _signInManager.UserManager.GetUserAsync(User);
 
+        if (user == null)
+        {
+            return Ok();
+        }
+
         await _signInManager.SignOutAsync();
 
         _logger.LogInformation("User {@User} logged out.", user);
