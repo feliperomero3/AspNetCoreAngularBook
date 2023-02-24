@@ -27,7 +27,7 @@ export class AuthenticationService {
       .pipe(map(response => {
         const keys = response.headers.keys();
         const headers = keys.map(key => `${key}: ${response.headers.get(key)}`);
-        JSON.stringify(headers);
+        console.log(JSON.stringify(headers));
         return { ...response.body! };
       }));
     return result;

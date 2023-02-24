@@ -36,10 +36,11 @@ export class LoginComponent extends BaseFormComponent implements OnInit {
     };
     this.authService.login(loginRequest).subscribe({
       next: result => {
-        console.log(result);
+        console.log(JSON.stringify(result));
         this.loginResult = result;
         if (result.success) {
           console.log('Successful login');
+          this.router.navigate(['/']);
         }
       },
       error: error => {
