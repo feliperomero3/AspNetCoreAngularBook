@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginRequest } from './login-request';
 import { LoginResult } from './login-result';
@@ -9,25 +9,38 @@ import { LoginResult } from './login-result';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  public tokenKey = 'token';
+  public cookieName = '.AspNetCore.Identity.Application';
 
   constructor(protected http: HttpClient) { }
 
   get isAuthenticated(): boolean {
-    return this.getToken() !== null;
+    return this.getCookie() !== null;
   }
 
-  getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+  private getCookie(): string | null {
+    return getCookie(this.cookieName);
   }
 
   login(item: LoginRequest): Observable<LoginResult> {
-    var url = environment.baseUrl + "api/account/login";
-    return this.http.post<LoginResult>(url, item);
+    const url = environment.baseUrl + "api/account/login";
+    const result: Observable<LoginResult> = this.http.post<LoginResult>(url, item, { observe: 'response' })
+      .pipe(map(response => {
+        const keys = response.headers.keys();
+        const headers = keys.map(key => `${key}: ${response.headers.get(key)}`);
+        JSON.stringify(headers);
+        return { ...response.body! };
+      }));
+    return result;
   }
 
   logout(): Observable<{}> {
     var url = environment.baseUrl + "api/account/logout";
     return this.http.post(url, null);
   }
+}
+
+// https://developer.mozilla.org/en-US/docs/web/api/document/cookie#example_2_get_a_sample_cookie_named_test2
+function getCookie(name: string): string | null {
+  const cookieValue = document.cookie.split("; ").find((row) => row.startsWith(`"${name}="`))?.split("=")[1];
+  return cookieValue ?? null;
 }
