@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginRequest } from './login-request';
 import { LoginResult } from './login-result';
@@ -9,7 +9,10 @@ import { LoginResult } from './login-result';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  public cookieName = '.AspNetCore.Identity.Application';
+  private cookieName = '.AspNetCore.Identity.Application';
+  private authenticationStatusSubject = new Subject<boolean>();
+
+  authenticationStatus = this.authenticationStatusSubject.asObservable();
 
   constructor(protected http: HttpClient) { }
 
@@ -19,6 +22,14 @@ export class AuthenticationService {
 
   private getCookie(): string | null {
     return getCookie(this.cookieName);
+  }
+
+  private setAuthenticationStatus(isAuthenticated: boolean): void {
+    this.authenticationStatusSubject.next(isAuthenticated);
+  }
+
+  init(): void {
+    this.setAuthenticationStatus(this.isAuthenticated);
   }
 
   login(item: LoginRequest): Observable<LoginResult> {
@@ -33,9 +44,10 @@ export class AuthenticationService {
     return result;
   }
 
-  logout(): Observable<{}> {
+  logout(): void {
     var url = environment.baseUrl + "api/account/logout";
-    return this.http.post(url, null);
+    this.http.post(url, null);
+    this.setAuthenticationStatus(false);
   }
 }
 
