@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthenticationService } from '../authentication/authentication.service';
@@ -8,16 +8,25 @@ import { AuthenticationService } from '../authentication/authentication.service'
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.scss']
 })
-export class NavMenuComponent implements OnInit {
+export class NavMenuComponent implements OnInit, OnDestroy {
   private destroySubject = new Subject();
   isLoggedIn = false;
 
   constructor(private router: Router, private authentication: AuthenticationService) {
-    this.isLoggedIn = this.authentication.isAuthenticated;
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubject.next(true);
+    this.destroySubject.complete();
   }
 
   ngOnInit(): void {
+    this.getLoginStatus();
     this.updateLoginStatus();
+  }
+
+  getLoginStatus(): void {
+    this.isLoggedIn = this.authentication.isAuthenticated;
   }
 
   updateLoginStatus(): void {
@@ -29,7 +38,9 @@ export class NavMenuComponent implements OnInit {
   }
 
   onLogout(): void {
-    this.authentication.logout();
-    this.router.navigate(["/"]);
+    this.authentication.logout().subscribe({
+      next: () => this.router.navigate(["/"]),
+      error: error => console.log(error)
+    });
   }
 }

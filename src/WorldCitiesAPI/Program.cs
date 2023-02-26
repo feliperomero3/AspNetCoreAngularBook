@@ -42,6 +42,7 @@ public class Program
             options.LoginPath = "/api/account/login";
             options.AccessDeniedPath = "/api/account/denied";
             options.EventsType = typeof(CustomCookieAuthenticationEvents);
+            options.Cookie.HttpOnly = false;
         }).AddScoped<CustomCookieAuthenticationEvents>();
 
         builder.Services.AddAuthorization(options =>

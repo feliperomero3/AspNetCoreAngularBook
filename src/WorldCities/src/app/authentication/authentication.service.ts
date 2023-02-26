@@ -33,26 +33,25 @@ export class AuthenticationService {
   }
 
   login(item: LoginRequest): Observable<LoginResult> {
-    const url = environment.baseUrl + "api/account/login";
-    const result: Observable<LoginResult> = this.http.post<LoginResult>(url, item, { observe: 'response' })
+    const url = environment.baseUrl + 'api/account/login';
+    return this.http.post<LoginResult>(url, item)
       .pipe(map(response => {
-        const keys = response.headers.keys();
-        const headers = keys.map(key => `${key}: ${response.headers.get(key)}`);
-        console.log(JSON.stringify(headers));
-        return { ...response.body! };
+        this.setAuthenticationStatus(true);
+        return response;
       }));
-    return result;
   }
 
-  logout(): void {
-    var url = environment.baseUrl + "api/account/logout";
-    this.http.post(url, null);
-    this.setAuthenticationStatus(false);
+  logout(): Observable<{}> {
+    var url = environment.baseUrl + 'api/account/logout';
+    return this.http.post(url, null)
+      .pipe(map(response => {
+        this.setAuthenticationStatus(false)
+        return response;
+      }));
   }
 }
 
-// https://developer.mozilla.org/en-US/docs/web/api/document/cookie#example_2_get_a_sample_cookie_named_test2
 function getCookie(name: string): string | null {
-  const cookieValue = document.cookie.split("; ").find((row) => row.startsWith(`"${name}="`))?.split("=")[1];
+  const cookieValue = document.cookie.split("; ").find((row) => row.startsWith(`${name}=`))?.split("=")[1];
   return cookieValue ?? null;
 }

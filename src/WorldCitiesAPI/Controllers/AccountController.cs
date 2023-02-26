@@ -59,17 +59,17 @@ public class AccountController : ControllerBase
     [HttpPost("logout")]
     public async Task<ActionResult> LogoutAsync()
     {
-        var user = _signInManager.UserManager.GetUserAsync(User);
+        var user = await _signInManager.UserManager.GetUserAsync(User);
 
         if (user == null)
         {
-            return Ok();
+            return NoContent();
         }
 
         await _signInManager.SignOutAsync();
 
         _logger.LogInformation("User {@User} logged out.", user);
 
-        return Ok();
+        return NoContent();
     }
 }
