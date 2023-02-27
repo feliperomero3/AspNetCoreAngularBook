@@ -16,6 +16,11 @@ public class CitiesControllerTests : IClassFixture<WebApplicationFactory<Program
         // Arrange
         var client = _factory.CreateClient();
 
+        var result = await client.PostAsJsonAsync("/api/account/login",
+            new LoginRequest { Email = "alice@example.com", Password = "password" });
+
+        result.EnsureSuccessStatusCode();
+
         // Act
         var response = await client.GetAsync("/api/cities");
 
