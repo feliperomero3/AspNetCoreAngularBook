@@ -5,6 +5,7 @@ import { BaseFormComponent } from '../base-form.component';
 import { AuthenticationService } from './authentication.service';
 import { LoginRequest } from './login-request';
 import { LoginResult } from './login-result';
+import { XsrfService } from './xsrf.service';
 
 @Component({
   selector: 'app-login',
@@ -12,13 +13,13 @@ import { LoginResult } from './login-result';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent extends BaseFormComponent implements OnInit {
-  title?: string;
   loginResult?: LoginResult;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private authService: AuthenticationService) {
+    private authService: AuthenticationService,
+    private xsrf: XsrfService) {
     super();
     this.form = new FormGroup({
       email: new FormControl('', Validators.required),
@@ -40,6 +41,7 @@ export class LoginComponent extends BaseFormComponent implements OnInit {
         this.loginResult = result;
         if (result.success) {
           console.log('Successful login');
+          this.xsrf.getXsrfToken().subscribe();
           const returnUrl = this.activatedRoute.snapshot.queryParamMap.get('returnUrl');
           if (returnUrl) {
             console.log(`returnUrl: ${returnUrl}`);

@@ -4,6 +4,7 @@ using Serilog;
 using WorldCitiesAPI.Configurations;
 using WorldCitiesAPI.Data;
 using WorldCitiesAPI.Entities;
+using WorldCitiesAPI.Middlewares;
 
 namespace WorldCitiesAPI;
 
@@ -18,6 +19,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddControllers();
+        builder.Services.AddHttpContextAccessor();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
@@ -55,6 +57,9 @@ public class Program
             options.AddPolicy("AdministratorPolicy", policyBuilder => policyBuilder.RequireRole("Administrator"));
         });
 
+        builder.Services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
+        builder.Services.AddScoped<AntiforgeryMiddleware>();
+
         builder.Host.UseSerilog();
 
         var app = builder.Build();
@@ -73,6 +78,8 @@ public class Program
 
         app.UseAuthentication();
         app.UseAuthorization();
+
+        app.UseAntiforgery();
 
         app.MapControllers();
 
