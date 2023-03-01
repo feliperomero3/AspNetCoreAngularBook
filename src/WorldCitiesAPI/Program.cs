@@ -64,7 +64,7 @@ public class Program
 
         var app = builder.Build();
 
-        app.UseSerilogRequestLogging();
+        app.UseSerilogRequestLogging(options => options.IncludeQueryInRequestPath = true);
 
         using (var scope = app.Services.CreateScope())
         {
