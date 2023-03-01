@@ -33,7 +33,7 @@ public class ApplicationDbContextInitializer
             return; // Database has been seeded.
         }
 
-        var path = Path.Combine(_environment.ContentRootPath, "Data/Source/worldcities.csv");
+        var path = Path.Combine(_environment.ContentRootPath, "Data/Source/worldcities_test.csv");
 
         using var reader = new StreamReader(path);
         using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
