@@ -10,7 +10,8 @@ public class TestAuthenticationHandler : IAuthenticationHandler
         var claims = new[]
         {
             new Claim(ClaimTypes.Name, "Test user"),
-            new Claim(ClaimTypes.Email, "test@example.com")
+            new Claim(ClaimTypes.Email, "test@example.com"),
+            new Claim(ClaimTypes.Role, "User")
         };
 
         var identity = new ClaimsIdentity(claims, "Test");

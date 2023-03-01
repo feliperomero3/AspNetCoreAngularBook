@@ -7,22 +7,17 @@ public class CitiesControllerTests : IClassFixture<WebApplicationFactory<Program
     public CitiesControllerTests(WebApplicationFactory<Program> factory)
     {
         _factory = factory;
-        _factory.ClientOptions.BaseAddress = new Uri("https://localhost:7063");
+        _factory.ClientOptions.BaseAddress = new Uri("https://localhost:7063/api/");
     }
 
     [Fact]
     public async Task Get_cities()
     {
         // Arrange
-        var client = _factory.CreateClient();
-
-        var result = await client.PostAsJsonAsync("/api/account/login",
-            new LoginRequest { Email = "alice@example.com", Password = "password" });
-
-        result.EnsureSuccessStatusCode();
+        var client = _factory.WithAuthenticatedUser().CreateClient();
 
         // Act
-        var response = await client.GetAsync("/api/cities");
+        var response = await client.GetAsync("cities");
 
         // Assert
         response.EnsureSuccessStatusCode();
