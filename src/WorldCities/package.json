@@ -26,7 +26,6 @@
     "@angular/router": "~13.3.0",
     "@angular/service-worker": "~13.3.0",
     "jest-editor-support": "*",
-    "ng-connection-service": "^9.0.3",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
