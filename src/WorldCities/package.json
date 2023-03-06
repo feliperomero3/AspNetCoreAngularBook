@@ -25,6 +25,7 @@
     "@angular/pwa": "^13.3.10",
     "@angular/router": "~13.3.0",
     "@angular/service-worker": "~13.3.0",
+    "angular-connection-service": "^13.0.1",
     "jest-editor-support": "*",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
