@@ -62,6 +62,15 @@ public class Program
 
         builder.Services.AddHealthChecks();
 
+        builder.Services.AddCors(options =>
+            options.AddPolicy(name: "AngularPolicy",
+            policy =>
+            {
+                policy.AllowAnyHeader();
+                policy.AllowAnyMethod();
+                policy.WithOrigins(builder.Configuration["AllowedCors"]!);
+            }));
+
         builder.Host.UseSerilog();
 
         var app = builder.Build();
@@ -77,6 +86,8 @@ public class Program
         app.UseSwaggerUI();
 
         app.UseHttpsRedirection();
+        app.UseCors("AngularPolicy");
+
         app.MapHealthChecks("/api/heartbeat").AllowAnonymous();
 
         app.UseAuthentication();
