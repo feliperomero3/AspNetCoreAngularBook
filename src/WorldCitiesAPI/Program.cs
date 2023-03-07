@@ -60,6 +60,8 @@ public class Program
         builder.Services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
         builder.Services.AddScoped<AntiforgeryMiddleware>();
 
+        builder.Services.AddHealthChecks();
+
         builder.Host.UseSerilog();
 
         var app = builder.Build();
@@ -75,6 +77,7 @@ public class Program
         app.UseSwaggerUI();
 
         app.UseHttpsRedirection();
+        app.MapHealthChecks("/api/heartbeat").AllowAnonymous();
 
         app.UseAuthentication();
         app.UseAuthorization();
