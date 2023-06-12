@@ -16,6 +16,7 @@ public class XsrfController : ControllerBase
         _contextAccessor = contextAccessor ?? throw new ArgumentNullException(nameof(contextAccessor));
     }
 
+    [HttpGet]
     public ActionResult GetXsrfToken()
     {
         var context = _contextAccessor.HttpContext!;
