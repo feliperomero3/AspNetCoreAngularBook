@@ -1,3 +1,5 @@
+using Microsoft.Net.Http.Headers;
+
 namespace WorldCitiesAPI.Tests.Controllers;
 
 public class XsrfControllerTests : IClassFixture<WebApplicationFactory<Program>>
@@ -13,13 +15,13 @@ public class XsrfControllerTests : IClassFixture<WebApplicationFactory<Program>>
     [Fact]
     public async Task Get_xsrf_token()
     {
-        var client = _factory.WithAuthenticatedUser().CreateClient();
+        var client = _factory.CreateClient();
 
         var response = await client.GetAsync("/api/xsrf-token");
 
         response.EnsureSuccessStatusCode();
 
-        var xsrfToken = response.Headers.FirstOrDefault(h => h.Key == "Set-Cookie").Value;
+        var xsrfToken = response.Headers.FirstOrDefault(h => h.Key == HeaderNames.SetCookie).Value;
 
         Assert.True(xsrfToken.Any());
     }
