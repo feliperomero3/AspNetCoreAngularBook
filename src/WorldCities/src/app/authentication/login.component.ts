@@ -41,11 +41,11 @@ export class LoginComponent extends BaseFormComponent implements OnInit {
         this.loginResult = result;
         if (result.success) {
           console.log('Successful login');
-          this.xsrf.getXsrfToken().subscribe();
+          this.getXsrfToken();
           const returnUrl = this.activatedRoute.snapshot.queryParamMap.get('returnUrl');
           if (returnUrl) {
             console.log(`returnUrl: ${returnUrl}`);
-            this.router.navigate([`${returnUrl}`])
+            this.router.navigate([`${returnUrl}`]);
           } else {
             this.router.navigate(['/']);
           }
@@ -58,5 +58,9 @@ export class LoginComponent extends BaseFormComponent implements OnInit {
         }
       }
     });
+  }
+
+  getXsrfToken(): void {
+    this.xsrf.getXsrfToken().subscribe();
   }
 }
