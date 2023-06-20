@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WorldCitiesAPI.Controllers;
 
+[AllowAnonymous]
 [Route("api/xsrf-token")]
 [ApiController]
 public class XsrfController : ControllerBase
