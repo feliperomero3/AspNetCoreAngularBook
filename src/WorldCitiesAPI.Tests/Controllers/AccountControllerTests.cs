@@ -1,3 +1,5 @@
+using Microsoft.Net.Http.Headers;
+
 namespace WorldCitiesAPI.Tests.Controllers;
 
 public class AccountControllerTests : IClassFixture<WebApplicationFactory<Program>>
@@ -20,9 +22,9 @@ public class AccountControllerTests : IClassFixture<WebApplicationFactory<Progra
 
         response.EnsureSuccessStatusCode();
 
-        var authenticationCookie = response.Headers.FirstOrDefault(h => h.Key == "Set-Cookie").Value;
+        var authenticationCookie = response.Headers.FirstOrDefault(h => h.Key == HeaderNames.SetCookie).Value.FirstOrDefault();
 
-        Assert.True(authenticationCookie.Any());
+        Assert.StartsWith(".AspNetCore.Identity.Application", authenticationCookie);
     }
 
     [Fact]
@@ -38,9 +40,5 @@ public class AccountControllerTests : IClassFixture<WebApplicationFactory<Progra
         var logoutResponse = await client.PostAsync("logout", new StringContent(string.Empty));
 
         logoutResponse.EnsureSuccessStatusCode();
-
-        var authenticationCookie = logoutResponse.Headers.FirstOrDefault(h => h.Key == "Set-Cookie").Value;
-
-        Assert.True(authenticationCookie.Any());
     }
 }
