@@ -52,7 +52,7 @@ _Countries page_
 ```markdown
 MIT License
 
-Copyright (c) 2023 Felipe Romero
+Copyright (c) 2024 Felipe Romero
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
